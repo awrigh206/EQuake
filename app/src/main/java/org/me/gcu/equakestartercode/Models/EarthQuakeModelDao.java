@@ -3,21 +3,27 @@ package org.me.gcu.equakestartercode.Models;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface EarthQuakeModelDao {
     @Query("SELECT * FROM EarthQuakeModel")
-    List<EarthQuakeModel> getAll();
+    Single<List<EarthQuakeModel>> getAll();
 
     @Query("SELECT * FROM EarthQuakeModel WHERE title LIKE :title LIMIT 1")
-    EarthQuakeModel  findByTitle(String title);
+    Single<EarthQuakeModel> findByTitle(String title);
 
-    @Insert
-    void insertAll(EarthQuakeModel earthQuakeModel);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insertAll(EarthQuakeModel earthQuakeModel);
 
     @Delete
-    void delete (EarthQuakeModel model);
+    Completable delete (EarthQuakeModel model);
+
+    @Query("DELETE FROM EarthQuakeModel")
+    public Single<Integer> clearTable();
 }
