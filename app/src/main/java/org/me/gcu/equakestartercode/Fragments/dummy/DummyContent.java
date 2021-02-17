@@ -1,4 +1,4 @@
-package org.me.gcu.equakestartercode.dummy;
+package org.me.gcu.equakestartercode.Fragments.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

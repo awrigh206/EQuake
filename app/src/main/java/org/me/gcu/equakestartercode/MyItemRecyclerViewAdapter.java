@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.me.gcu.equakestartercode.dummy.DummyContent.DummyItem;
+import org.me.gcu.equakestartercode.Fragments.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 

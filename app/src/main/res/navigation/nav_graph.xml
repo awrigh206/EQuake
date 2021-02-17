@@ -6,7 +6,7 @@
     app:startDestination="@id/listFragment">
     <fragment
         android:id="@+id/listFragment"
-        android:name="org.me.gcu.equakestartercode.ListFragment"
+        android:name="org.me.gcu.equakestartercode.Fragments.ListFragment"
         android:label="fragment_list_list"
         tools:layout="@layout/fragment_list_list" />
 </navigation>

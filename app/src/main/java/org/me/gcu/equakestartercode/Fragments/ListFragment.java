@@ -1,4 +1,4 @@
-package org.me.gcu.equakestartercode;
+package org.me.gcu.equakestartercode.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.me.gcu.equakestartercode.dummy.DummyContent;
+import org.me.gcu.equakestartercode.Fragments.dummy.DummyContent;
+import org.me.gcu.equakestartercode.MyItemRecyclerViewAdapter;
+import org.me.gcu.equakestartercode.R;
 
 /**
  * A fragment representing a list of Items.
