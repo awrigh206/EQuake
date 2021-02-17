@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import org.me.gcu.equakestartercode.MyItemRecyclerViewAdapter;
 import org.me.gcu.equakestartercode.R;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 import org.me.gcu.equakestartercode.ViewModels.MainPageViewModel;
 import org.me.gcu.equakestartercode.ViewModels.MainViewModelFactory;
 
@@ -24,7 +26,7 @@ import org.me.gcu.equakestartercode.ViewModels.MainViewModelFactory;
 public class ListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 2;
-    private MainPageViewModel viewModel;
+    private ListViewModel viewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -54,8 +56,9 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_list, container, false);
-        MainViewModelFactory mainViewModelFactory = new MainViewModelFactory();
-        viewModel = new ViewModelProvider(this, mainViewModelFactory).get(MainPageViewModel.class);
+        ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
+        viewModel = new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
+        viewModel.setContext(getContext());
 
         // Set the adapter
         if (view instanceof RecyclerView) {

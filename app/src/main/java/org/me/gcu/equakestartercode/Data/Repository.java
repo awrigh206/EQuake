@@ -1,5 +1,7 @@
 package org.me.gcu.equakestartercode.Data;
 
+import android.content.Context;
+
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,4 +25,9 @@ public class Repository {
     public List<EarthQuakeModel> getModels(){
         return remoteDataSource.getModels();
     }
+
+    public void setContext(Context context){
+        this.localDataSource.setContext(context);
+    }
+
 }

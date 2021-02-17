@@ -101,4 +101,28 @@ public class EarthQuakeModel {
     public void setLon(double lon) {
         this.lon = lon;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getMagnitude() {
+        return magnitude;
+    }
+
+    public void setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    public String getDepth() {
+        return depth;
+    }
+
+    public void setDepth(String depth) {
+        this.depth = depth;
+    }
 }
