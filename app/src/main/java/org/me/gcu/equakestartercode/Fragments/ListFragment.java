@@ -4,27 +4,31 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.me.gcu.equakestartercode.Fragments.dummy.DummyContent;
+import org.me.gcu.equakestartercode.MainActivity;
 import org.me.gcu.equakestartercode.MyItemRecyclerViewAdapter;
 import org.me.gcu.equakestartercode.R;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
+import org.me.gcu.equakestartercode.ViewModels.MainPageViewModel;
+import org.me.gcu.equakestartercode.ViewModels.ViewModelFactory;
 
 /**
  * A fragment representing a list of Items.
  */
 public class ListFragment extends Fragment {
-
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 2;
+    private MainPageViewModel viewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -33,8 +37,6 @@ public class ListFragment extends Fragment {
     public ListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static ListFragment newInstance(int columnCount) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
@@ -56,6 +58,8 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_list, container, false);
+        ViewModelFactory viewModelFactory = new ViewModelFactory();
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(MainPageViewModel.class);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -66,8 +70,9 @@ public class ListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(viewModel.getData()));
         }
         return view;
     }
+
 }

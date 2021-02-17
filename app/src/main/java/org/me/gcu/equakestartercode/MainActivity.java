@@ -2,15 +2,15 @@ package org.me.gcu.equakestartercode;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.me.gcu.equakestartercode.Data.ViewModelFactory;
+import org.me.gcu.equakestartercode.ViewModels.MainPageViewModel;
+import org.me.gcu.equakestartercode.ViewModels.ViewModelFactory;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {

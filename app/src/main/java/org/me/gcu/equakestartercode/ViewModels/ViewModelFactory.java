@@ -1,9 +1,10 @@
-package org.me.gcu.equakestartercode.Data;
+package org.me.gcu.equakestartercode.ViewModels;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import org.me.gcu.equakestartercode.DaggerIApplicationGraph;
+import org.me.gcu.equakestartercode.Data.Repository;
 import org.me.gcu.equakestartercode.IApplicationGraph;
 import java.lang.reflect.InvocationTargetException;
 

@@ -23,7 +23,6 @@ public class XmlParser implements Callable<List<EarthQuakeModel>> {
     public List<EarthQuakeModel> call() {
         String data = getDataFromServer();
         List modelList = parseEarthQuakes(data);
-        Log.e("Parsing","resultant list: " + modelList.toString());
         return modelList;
 
     }
