@@ -1,6 +1,12 @@
 package org.me.gcu.equakestartercode.Models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class EarthQuakeModel {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String title;
     private String description;
     private String link;

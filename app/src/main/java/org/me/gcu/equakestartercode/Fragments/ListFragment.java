@@ -9,18 +9,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.me.gcu.equakestartercode.Fragments.dummy.DummyContent;
-import org.me.gcu.equakestartercode.MainActivity;
 import org.me.gcu.equakestartercode.MyItemRecyclerViewAdapter;
 import org.me.gcu.equakestartercode.R;
-import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.MainPageViewModel;
-import org.me.gcu.equakestartercode.ViewModels.ViewModelFactory;
+import org.me.gcu.equakestartercode.ViewModels.MainViewModelFactory;
 
 /**
  * A fragment representing a list of Items.
@@ -58,8 +54,8 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_list, container, false);
-        ViewModelFactory viewModelFactory = new ViewModelFactory();
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(MainPageViewModel.class);
+        MainViewModelFactory mainViewModelFactory = new MainViewModelFactory();
+        viewModel = new ViewModelProvider(this, mainViewModelFactory).get(MainPageViewModel.class);
 
         // Set the adapter
         if (view instanceof RecyclerView) {

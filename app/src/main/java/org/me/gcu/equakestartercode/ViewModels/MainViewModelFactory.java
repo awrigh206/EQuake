@@ -8,7 +8,7 @@ import org.me.gcu.equakestartercode.Data.Repository;
 import org.me.gcu.equakestartercode.IApplicationGraph;
 import java.lang.reflect.InvocationTargetException;
 
-public class ViewModelFactory implements ViewModelProvider.Factory {
+public class MainViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

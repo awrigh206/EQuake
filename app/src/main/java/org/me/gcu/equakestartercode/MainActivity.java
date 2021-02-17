@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.me.gcu.equakestartercode.ViewModels.MainPageViewModel;
-import org.me.gcu.equakestartercode.ViewModels.ViewModelFactory;
+import org.me.gcu.equakestartercode.ViewModels.MainViewModelFactory;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener
 {
@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 //        rawDataDisplay = (TextView)findViewById(R.id.rawDataDisplay);
 //        startButton = (Button)findViewById(R.id.startButton);
 //        startButton.setOnClickListener(this);
-        ViewModelFactory viewModelFactory = new ViewModelFactory();
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(MainPageViewModel.class);
+        MainViewModelFactory mainViewModelFactory = new MainViewModelFactory();
+        viewModel = new ViewModelProvider(this, mainViewModelFactory).get(MainPageViewModel.class);
     }
 
 
