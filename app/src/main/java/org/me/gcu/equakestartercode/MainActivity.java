@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Set up the raw links to the graphical components
-        rawDataDisplay = (TextView)findViewById(R.id.rawDataDisplay);
-        startButton = (Button)findViewById(R.id.startButton);
-        startButton.setOnClickListener(this);
+//        rawDataDisplay = (TextView)findViewById(R.id.rawDataDisplay);
+//        startButton = (Button)findViewById(R.id.startButton);
+//        startButton.setOnClickListener(this);
         ViewModelFactory viewModelFactory = new ViewModelFactory();
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainPageViewModel.class);
     }
@@ -33,6 +33,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 
     public void onClick(View aview)
     {
-        Log.e("Activity Class", viewModel.getData().toString());
+//        Log.e("Activity Class", viewModel.getData().toString());
     }
 }
