@@ -9,7 +9,7 @@ public class ResourcePool {
 
     @Inject
     public ResourcePool(){
-        this.executorService = Executors.newFixedThreadPool(4);
+        this.executorService = Executors.newFixedThreadPool(2);
     }
 
     public ExecutorService getExecutorService() {

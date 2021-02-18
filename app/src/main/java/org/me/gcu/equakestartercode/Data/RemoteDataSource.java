@@ -1,5 +1,7 @@
 package org.me.gcu.equakestartercode.Data;
 
+import android.util.Xml;
+
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
 import java.util.LinkedList;
@@ -12,12 +14,20 @@ import javax.inject.Inject;
 
 public class RemoteDataSource {
     private Future<List<EarthQuakeModel>> models;
+    private ResourcePool resourcePool;
+    private XmlParser xmlParser;
 
     @Inject
     public RemoteDataSource(ResourcePool resourcePool){
         ExecutorService executorService = resourcePool.getExecutorService();
-        this.models = executorService.submit(new XmlParser());
+        this.xmlParser = new XmlParser();
+        this.models = executorService.submit(xmlParser);
+        this.resourcePool = resourcePool;
     }
+    public void updateModels(){
+        this.models = resourcePool.getExecutorService().submit(xmlParser);
+    }
+
     public List<EarthQuakeModel> getModels() {
         if(models.isDone()){
             try {
@@ -29,5 +39,14 @@ public class RemoteDataSource {
             }
         }
         return new LinkedList<>();
+    }
+
+    public boolean hasData (){
+        if(!getModels().isEmpty()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
