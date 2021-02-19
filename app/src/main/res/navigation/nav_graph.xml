@@ -8,5 +8,15 @@
         android:id="@+id/listFragment"
         android:name="org.me.gcu.equakestartercode.Fragments.ListFragment"
         android:label="fragment_list_list"
-        tools:layout="@layout/fragment_list_list" />
+        tools:layout="@layout/fragment_list_list" >
+        <action
+            android:id="@+id/action_listFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment"
+            app:enterAnim="@anim/fragment_fade_enter" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="org.me.gcu.equakestartercode.Fragments.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>
