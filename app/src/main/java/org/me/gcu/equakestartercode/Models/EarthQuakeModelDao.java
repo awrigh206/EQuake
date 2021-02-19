@@ -8,6 +8,7 @@ import androidx.room.Query;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
 @Dao
@@ -19,7 +20,10 @@ public interface EarthQuakeModelDao {
     Single<EarthQuakeModel> findByTitle(String title);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(EarthQuakeModel earthQuakeModel);
+    Completable insert(EarthQuakeModel earthQuakeModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insertAll(List<EarthQuakeModel> earthQuakeModel);
 
     @Delete
     Completable delete (EarthQuakeModel model);

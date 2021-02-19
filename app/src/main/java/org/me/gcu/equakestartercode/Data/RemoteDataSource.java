@@ -42,11 +42,31 @@ public class RemoteDataSource {
     }
 
     public boolean hasData (){
-        if(!getModels().isEmpty()){
-            return true;
+        if(getModels() != null){
+            if(!getModels().isEmpty()){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
-        else{
-            return false;
+        return false;
+    }
+
+    public List<EarthQuakeModel> getModelsDirectFromSource(){
+        this.models = resourcePool.getExecutorService().submit(xmlParser);
+        try{
+            while (!models.isDone()){
+                android.os.SystemClock.sleep(100);
+            }
+            models.get();
         }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }

@@ -13,12 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.me.gcu.equakestartercode.MyItemRecyclerViewAdapter;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
-import org.me.gcu.equakestartercode.ViewModels.MainPageViewModel;
-import org.me.gcu.equakestartercode.ViewModels.MainViewModelFactory;
 
 /**
  * A fragment representing a list of Items.
@@ -59,6 +56,10 @@ public class ListFragment extends Fragment {
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
         viewModel = new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
         viewModel.setContext(getContext());
+
+        if(viewModel.getData() == null){
+            android.os.SystemClock.sleep(1000);
+        }
 
         // Set the adapter
         if (view instanceof RecyclerView) {

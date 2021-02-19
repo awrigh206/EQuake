@@ -20,14 +20,14 @@ public class XmlParser implements Callable<List<EarthQuakeModel>> {
     private String url="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
 
     @Override
-    public List<EarthQuakeModel> call() {
+    public List<EarthQuakeModel> call() throws IOException {
         String data = getDataFromServer();
         List modelList = parseEarthQuakes(data);
         return modelList;
 
     }
 
-    private List<EarthQuakeModel> parseEarthQuakes(String rawData){
+    private List<EarthQuakeModel> parseEarthQuakes(String rawData) throws IOException {
         Log.e("Parsing","Starting to parse the data");
         LinkedList<EarthQuakeModel> models = new LinkedList<>();
         EarthQuakeModel currentModel = null;
@@ -83,9 +83,6 @@ public class XmlParser implements Callable<List<EarthQuakeModel>> {
                 eventType = xpp.next();
             }
             return models;
-        }
-        catch (IOException io){
-            io.printStackTrace();
         }
         catch (XmlPullParserException pullParserException){
             pullParserException.printStackTrace();

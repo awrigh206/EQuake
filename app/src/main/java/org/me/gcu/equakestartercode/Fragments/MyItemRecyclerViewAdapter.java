@@ -1,4 +1,4 @@
-package org.me.gcu.equakestartercode;
+package org.me.gcu.equakestartercode.Fragments;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,13 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
+import org.me.gcu.equakestartercode.R;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<EarthQuakeModel> mValues;
