@@ -1,13 +1,12 @@
 package org.me.gcu.equakestartercode.Data;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
-import java.util.LinkedList;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,12 +14,12 @@ import java.util.TimerTask;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import dagger.Component;
-import dagger.Module;
 @Singleton
 public class Repository {
     private final RemoteDataSource remoteDataSource;
     private final LocalDataSource localDataSource;
+    private List<EarthQuakeModel> earthQuakeModels;
+    private MutableLiveData<List<EarthQuakeModel>> liveData;
     private final ResourcePool resourcePool;
 
     @Inject
@@ -35,6 +34,13 @@ public class Repository {
         if(remoteDataSource.hasData()){
             localDataSource.updateData(remoteDataSource.getModels());
         }
+    }
+
+    public MutableLiveData<List<EarthQuakeModel>> getLiveData(boolean isOnline) {
+        earthQuakeModels = getModels(isOnline);
+        liveData = new MutableLiveData<>();
+        liveData.setValue(getModels(isOnline));
+        return liveData;
     }
 
     /**
@@ -70,31 +76,32 @@ public class Repository {
         }
         return null;
     }
-    private void setUpdateTimer(){
+    private void setUpdateTimer(boolean isOnline){
+        //updates the data inside the remote data source and the local datasource every ten seconds to enable up to date data on the front end
         Timer updateTimer = new Timer();
         updateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 resourcePool.getExecutorService().execute(() -> {
                     try {
-                        remoteDataSource.updateModels();
-                        Thread.sleep(100);
-                        if(remoteDataSource.hasData()){
-                            localDataSource.updateData(remoteDataSource.getModels());
+                        if(isOnline){
+                            remoteDataSource.updateModels();
+                            Thread.sleep(100);
+                            if(remoteDataSource.hasData()){
+                                localDataSource.updateData(remoteDataSource.getModels());
+                            }
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 });
-
             }
         }, 0, 10000);
     }
 
-    public void setContext(Context context){
-
+    public void setContext(Context context, boolean isOnline){
         this.localDataSource.setContext(context);
-        setUpdateTimer();
+        setUpdateTimer(isOnline);
     }
 
 

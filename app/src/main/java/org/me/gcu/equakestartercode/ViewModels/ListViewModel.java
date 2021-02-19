@@ -4,6 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import org.me.gcu.equakestartercode.Data.Repository;
@@ -18,8 +23,8 @@ public class ListViewModel extends ViewModel {
     public ListViewModel (Repository repository){
         this.repository = repository;
     }
-    public List<EarthQuakeModel> getData(){
-        return repository.getModels(isOnline());
+    public MutableLiveData<List<EarthQuakeModel>> getData(){
+        return repository.getLiveData(isOnline());
     }
 
     public Context getContext() {
@@ -28,7 +33,7 @@ public class ListViewModel extends ViewModel {
 
     public void setContext(Context context) {
         this.context = context;
-        repository.setContext(context);
+        repository.setContext(context,isOnline());
     }
 
     private boolean isOnline() {

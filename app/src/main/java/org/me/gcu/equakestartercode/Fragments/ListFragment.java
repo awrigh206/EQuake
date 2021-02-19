@@ -70,7 +70,7 @@ public class ListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(viewModel.getData()));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(viewModel.getData().getValue()));
         }
         return view;
     }

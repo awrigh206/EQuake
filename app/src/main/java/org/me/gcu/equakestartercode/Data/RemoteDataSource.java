@@ -1,6 +1,6 @@
 package org.me.gcu.equakestartercode.Data;
 
-import android.util.Xml;
+import androidx.lifecycle.MutableLiveData;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
