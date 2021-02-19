@@ -14,20 +14,20 @@ import io.reactivex.rxjava3.core.Single;
 @Dao
 public interface EarthQuakeModelDao {
     @Query("SELECT * FROM EarthQuakeModel")
-    Single<List<EarthQuakeModel>> getAll();
+    List<EarthQuakeModel> getAll();
 
     @Query("SELECT * FROM EarthQuakeModel WHERE title LIKE :title LIMIT 1")
-    Single<EarthQuakeModel> findByTitle(String title);
+    EarthQuakeModel findByTitle(String title);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(EarthQuakeModel earthQuakeModel);
+    void insert(EarthQuakeModel earthQuakeModel);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertAll(List<EarthQuakeModel> earthQuakeModel);
+    void insertAll(List<EarthQuakeModel> earthQuakeModel);
 
     @Delete
-    Completable delete (EarthQuakeModel model);
+    void delete (EarthQuakeModel model);
 
     @Query("DELETE FROM EarthQuakeModel")
-    public Single<Integer> clearTable();
+    public void clearTable();
 }

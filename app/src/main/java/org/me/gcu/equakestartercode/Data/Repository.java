@@ -40,24 +40,30 @@ public class Repository {
      * @return
      */
     public List<EarthQuakeModel> getModels(boolean online){
-        if(online){
-            if(remoteDataSource.hasData()){
-                Log.e("Source","Getting from remote datasource");
-                updateLocalDataWithRemoteData();
-                return remoteDataSource.getModels();
-            }
-            else if (localDataSource.hasData()){
-                Log.e("Source","Getting from Local data source");
-                return localDataSource.getModels();
+        try{
+            if(online){
+                if(remoteDataSource.hasData()){
+                    Log.e("Source","Getting from remote datasource");
+                    updateLocalDataWithRemoteData();
+                    return remoteDataSource.getModels();
+                }
+                else if (localDataSource.hasData()){
+                    Log.e("Source","Getting from Local data source");
+                    return localDataSource.getModels();
+                }
+                else{
+                    Log.e("Source","Getting direct from source");
+                    return remoteDataSource.getModelsDirectFromSource();
+                }
             }
             else{
-                Log.e("Source","Getting direct from source");
-                return remoteDataSource.getModelsDirectFromSource();
+                return localDataSource.getModels();
             }
         }
-        else{
-            return localDataSource.getModels();
+        catch (Exception e){
+            e.printStackTrace();
         }
+        return null;
     }
 
     public void setContext(Context context){
