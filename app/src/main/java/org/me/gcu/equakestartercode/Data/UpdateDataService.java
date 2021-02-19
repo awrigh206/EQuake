@@ -12,8 +12,8 @@ public class UpdateDataService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         Log.e("Service", "Running the update service");
-        repository.getRemoteDataSource().updateModels();
-        repository.updateLocalDataWithRemoteData();
+//        repository.getLocalDataSource().updateData();
+//        repository.updateLocalDataWithRemoteData();
         return true;
     }
 

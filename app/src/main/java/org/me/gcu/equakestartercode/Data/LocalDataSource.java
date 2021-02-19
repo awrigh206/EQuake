@@ -10,6 +10,8 @@ import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -32,7 +34,6 @@ public class LocalDataSource {
     private ResourcePool resourcePool;
     @Inject
     public LocalDataSource(ResourcePool resourcePool){
-
         this.resourcePool = resourcePool;
         this.models = null;
     }
@@ -51,7 +52,6 @@ public class LocalDataSource {
             db.earthQuakeModelDao().insertAll(models);
             db.close();
         });
-        Log.e("Local", String.valueOf(db.query("SELECT * FROM EarthQuakeModel;",new Object[0]).getCount()));
     }
 
     public boolean hasData() {

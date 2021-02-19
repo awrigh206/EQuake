@@ -9,6 +9,8 @@ import androidx.lifecycle.LiveData;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,14 +21,16 @@ import dagger.Module;
 public class Repository {
     private final RemoteDataSource remoteDataSource;
     private final LocalDataSource localDataSource;
+    private final ResourcePool resourcePool;
 
     @Inject
-    public Repository (RemoteDataSource remoteDataSource, LocalDataSource localDataSource){
+    public Repository (RemoteDataSource remoteDataSource, LocalDataSource localDataSource,ResourcePool resourcePool){
         this.remoteDataSource = remoteDataSource;
         this.localDataSource = localDataSource;
+        this.resourcePool = resourcePool;
     }
 
-    public void updateLocalDataWithRemoteData(){
+    private void updateLocalDataWithRemoteData(){
         //This method updates the data inside the local database with the cached data from the remote datasource
         if(remoteDataSource.hasData()){
             localDataSource.updateData(remoteDataSource.getModels());
@@ -57,6 +61,7 @@ public class Repository {
                 }
             }
             else{
+                Log.e("Source","Getting from Local data source");
                 return localDataSource.getModels();
             }
         }
@@ -65,14 +70,39 @@ public class Repository {
         }
         return null;
     }
+    private void setUpdateTimer(){
+        Timer updateTimer = new Timer();
+        updateTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                resourcePool.getExecutorService().execute(() -> {
+                    try {
+                        remoteDataSource.updateModels();
+                        Thread.sleep(100);
+                        if(remoteDataSource.hasData()){
+                            localDataSource.updateData(remoteDataSource.getModels());
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+            }
+        }, 0, 10000);
+    }
 
     public void setContext(Context context){
+
         this.localDataSource.setContext(context);
+        setUpdateTimer();
     }
 
 
     public RemoteDataSource getRemoteDataSource(){
         return this.remoteDataSource;
     }
+
+    public LocalDataSource getLocalDataSource(){
+        return this.localDataSource;}
 
 }
