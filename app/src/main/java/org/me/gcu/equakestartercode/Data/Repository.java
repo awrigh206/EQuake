@@ -96,7 +96,7 @@ public class Repository {
                     }
                 });
             }
-        }, 0, 10000);
+        }, 0, 100000);
     }
 
     public void setContext(Context context, boolean isOnline){
