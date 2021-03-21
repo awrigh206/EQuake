@@ -3,8 +3,11 @@ package org.me.gcu.equakestartercode.Fragments;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +19,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
+
+import java.util.List;
 
 public class MapsFragment extends Fragment {
+    ListViewModel listViewModel;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -33,17 +42,29 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            addMarkers(googleMap,listViewModel.getData().getValue());
         }
     };
+
+    private void addMarkers(GoogleMap map,List<EarthQuakeModel> modelList){
+        LatLng last = new LatLng(0,0);
+        for (EarthQuakeModel current : modelList){
+            LatLng currentLocation = new LatLng(current.getLat(),current.getLon());
+            map.addMarker(new MarkerOptions().position(currentLocation).title(current.getTitle()));
+            last = currentLocation;
+        }
+        map.moveCamera(CameraUpdateFactory.newLatLng(last));
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
+        listViewModel = (ListViewModel)new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
+        listViewModel.setContext(getContext());
+        Log.e("maps", "Lists: " +listViewModel.getData().getValue());
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 

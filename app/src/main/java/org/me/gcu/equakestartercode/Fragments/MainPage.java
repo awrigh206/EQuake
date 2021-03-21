@@ -9,9 +9,13 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import org.me.gcu.equakestartercode.R;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 
 public class MainPage extends Fragment implements View.OnClickListener {
     ImageButton mapButton;
@@ -26,6 +30,7 @@ public class MainPage extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
         mapButton = (ImageButton)view.findViewById(R.id.mapButton);
         mapButton.setOnClickListener(this);
+
         return view;
     }
 
