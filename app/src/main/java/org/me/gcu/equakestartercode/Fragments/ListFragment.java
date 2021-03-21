@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +25,14 @@ import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 /**
  * A fragment representing a list of Items.
  */
-public class ListFragment extends Fragment implements View.OnClickListener {
+public class ListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private ListViewModel viewModel;
-    ImageButton mapButton;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
+     * fragment
      */
     public ListFragment() {
     }
@@ -58,11 +58,10 @@ public class ListFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_list, container, false);
-        mapButton = (ImageButton)view.findViewById(R.id.mapButton);
-        mapButton.setOnClickListener(this);
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
         viewModel = new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
         viewModel.setContext(getContext());
+        Log.e("view","Does this even run");
 
         if(viewModel.getData() == null){
             android.os.SystemClock.sleep(1000);
@@ -70,6 +69,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
+            Log.e("view","This has a recycler");
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
@@ -82,8 +82,4 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
-    public void onClick(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_listFragment_to_mapsFragment);
-    }
 }

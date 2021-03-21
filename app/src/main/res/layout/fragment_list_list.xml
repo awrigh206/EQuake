@@ -1,30 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content" android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <ImageButton
-        android:id="@+id/mapButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#000000"
-        android:onClick="onClick"
-        android:src="@android:drawable/ic_dialog_map" />
-
-    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/list"
-        android:name="org.me.gcu.equakestartercode.ListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".Fragments.ListFragment"
-        tools:listitem="@layout/fragment_list" />
-
-</LinearLayout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list"
+    android:name="org.me.gcu.equakestartercode.ListFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    app:layoutManager="LinearLayoutManager"
+    tools:context=".Fragments.ListFragment"
+    tools:listitem="@layout/fragment_list" />
