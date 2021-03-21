@@ -30,9 +30,5 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Set up the raw links to the graphical components
-//        rawDataDisplay = (TextView)findViewById(R.id.rawDataDisplay);
-//        startButton = (Button)findViewById(R.id.startButton);
-//        startButton.setOnClickListener(this);
     }
 }

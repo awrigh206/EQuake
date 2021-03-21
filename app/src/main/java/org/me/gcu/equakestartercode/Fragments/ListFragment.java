@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import org.me.gcu.equakestartercode.Data.Repository;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
@@ -61,7 +62,6 @@ public class ListFragment extends Fragment {
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
         viewModel = new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
         viewModel.setContext(getContext());
-        Log.e("view","Does this even run");
 
         if(viewModel.getData() == null){
             android.os.SystemClock.sleep(1000);
@@ -69,7 +69,6 @@ public class ListFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Log.e("view","This has a recycler");
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
@@ -81,5 +80,7 @@ public class ListFragment extends Fragment {
         }
         return view;
     }
+
+    public Repository getRepository(){return viewModel.getRepository();}
 
 }

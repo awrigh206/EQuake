@@ -16,6 +16,8 @@
         tools:layout="@layout/fragment_main_page" >
         <action
             android:id="@+id/action_mainPage_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
+            app:destination="@id/mapsFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
     </fragment>
 </navigation>

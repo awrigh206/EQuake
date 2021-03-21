@@ -31,6 +31,8 @@ public class ListViewModel extends ViewModel {
         return context;
     }
 
+    public Repository getRepository(){return repository;}
+
     public void setContext(Context context) {
         this.context = context;
         repository.setContext(context,isOnline());
