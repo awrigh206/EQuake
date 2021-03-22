@@ -19,6 +19,8 @@ public class EarthQuakeModel implements Parcelable {
     private double lon;
     private double magnitude;
     private String depth;
+    private String location;
+    private String dateString;
 
     public EarthQuakeModel(String title, String description, String link, String pubDate, String category, double lat, double lon) {
         this.title = title;
@@ -46,14 +48,15 @@ public class EarthQuakeModel implements Parcelable {
 
     public void parseDescription (){
         String[] partsOfDescription = this.description.split(";");
-        String magString = partsOfDescription[partsOfDescription.length-1];
-        String depthString = partsOfDescription[partsOfDescription.length-2];
+        this.magnitude = Double.parseDouble(parseInfo(partsOfDescription,1));
+        this.depth = parseInfo(partsOfDescription,2);
+        this.location = parseInfo(partsOfDescription,4);
+    }
 
-        String[] partsMag = magString.split(":");
-        String[] depthParts = depthString.split(":");
-
-        this.magnitude = Double.parseDouble(partsMag[1]);
-        this.depth = depthParts[1];
+    private String parseInfo(String[] parts, int distanceFromEnd){
+        String text = parts[parts.length-distanceFromEnd];
+        String[] currentParts = text.split(":");
+        return currentParts[1];
     }
 
     public String toString(){
@@ -170,4 +173,20 @@ public class EarthQuakeModel implements Parcelable {
             return new EarthQuakeModel[size];
         }
     };
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
 }
