@@ -19,8 +19,8 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true" />
 
-        <fragment
-            android:id="@+id/fragment5"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/listFragment"
             android:name="org.me.gcu.equakestartercode.Fragments.ListFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

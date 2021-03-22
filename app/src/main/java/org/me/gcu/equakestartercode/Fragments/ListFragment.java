@@ -20,9 +20,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import org.me.gcu.equakestartercode.Data.Repository;
+import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
+
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -31,6 +34,7 @@ public class ListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private ListViewModel viewModel;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,6 +60,11 @@ public class ListFragment extends Fragment {
         }
     }
 
+    public void updateListView(List<EarthQuakeModel> listItems){
+        recyclerView.removeAllViews();
+        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(listItems));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,6 +87,7 @@ public class ListFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(viewModel.getData().getValue()));
+            this.recyclerView = recyclerView;
         }
         return view;
     }
