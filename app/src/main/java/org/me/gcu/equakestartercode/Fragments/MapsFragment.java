@@ -63,7 +63,7 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        dataList = (ArrayList)savedInstanceState.get("data");
+        dataList = getArguments().getParcelableArrayList("data");
 //        ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
 //        listViewModel = (ListViewModel)new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
 //        listViewModel.setContext(getContext());

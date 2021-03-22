@@ -8,11 +8,7 @@
         android:id="@+id/mapsFragment"
         android:name="org.me.gcu.equakestartercode.Fragments.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" >
-        <argument
-            android:name="data"
-            app:argType="org.me.gcu.equakestartercode.Models.EarthQuakeModel[]" />
-    </fragment>
+        tools:layout="@layout/fragment_maps" />
     <fragment
         android:id="@+id/mainPage"
         android:name="org.me.gcu.equakestartercode.Fragments.MainPage"

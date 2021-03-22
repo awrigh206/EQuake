@@ -42,7 +42,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
         listViewModel = (ListViewModel)new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
         listViewModel.setContext(getContext());
-        Bundle bundle = new Bundle();
+        bundle = new Bundle();
         List tempList = listViewModel.getData().getValue();
         //convert to ArrayList for the sake of Bundle
         ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
