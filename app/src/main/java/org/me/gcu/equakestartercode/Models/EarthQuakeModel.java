@@ -1,10 +1,13 @@
 package org.me.gcu.equakestartercode.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class EarthQuakeModel {
+public class EarthQuakeModel implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
@@ -26,6 +29,19 @@ public class EarthQuakeModel {
         this.lat = lat;
         this.lon = lon;
         parseDescription();
+    }
+
+    private EarthQuakeModel (Parcel parcel){
+        id = parcel.readInt();
+        title = parcel.readString();
+        description = parcel.readString();
+        link = parcel.readString();
+        pubDate = parcel.readString();
+        category = parcel.readString();
+        lat = parcel.readDouble();
+        lon = parcel.readDouble();
+        magnitude = parcel.readDouble();
+        depth = parcel.readString();
     }
 
     public void parseDescription (){
@@ -125,4 +141,33 @@ public class EarthQuakeModel {
     public void setDepth(String depth) {
         this.depth = depth;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(link);
+        parcel.writeString(pubDate);
+        parcel.writeString(category);
+        parcel.writeDouble(lat);
+        parcel.writeDouble(lon);
+        parcel.writeDouble(magnitude);
+        parcel.writeString(depth);
+    }
+
+    public static final Parcelable.Creator<EarthQuakeModel> CREATOR = new Parcelable.Creator<EarthQuakeModel>() {
+        public EarthQuakeModel createFromParcel(Parcel in) {
+            return new EarthQuakeModel(in);
+        }
+
+        public EarthQuakeModel[] newArray(int size) {
+            return new EarthQuakeModel[size];
+        }
+    };
 }
