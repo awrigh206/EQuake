@@ -13,6 +13,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog" />
+
         <SearchView
             android:id="@+id/searchBox"
             android:layout_width="match_parent"

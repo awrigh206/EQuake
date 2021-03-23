@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,6 +28,8 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private Bundle bundle;
     private ListFragment listFragment;
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
+    private Spinner searchTermSpinner;
+    private String[] categories = {"Title","Description","Location","Latitude","Longitude"};
     public MainPage(){}
 
     @Nullable
@@ -36,6 +41,12 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         listFragment = (ListFragment) getChildFragmentManager().findFragmentById(R.id.listFragment);
         mapButton = (ImageButton)view.findViewById(R.id.mapButton);
         searchBox = (SearchView)view.findViewById(R.id.searchBox);
+        searchTermSpinner = (Spinner) view.findViewById(R.id.spinner);
+
+        ArrayAdapter adapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_dropdown_item_1line);
+        adapter.addAll(categories);
+        searchTermSpinner.setAdapter(adapter);
+
         mapButton.setOnClickListener(this);
         searchBox.setOnQueryTextListener(this);
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
@@ -51,10 +62,9 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
 
     private ArrayList<EarthQuakeModel> search (String searchTerm){
         //Switch everything to lower case to ensure fair comparison
-        searchTerm.toLowerCase();
         ArrayList<EarthQuakeModel> results = new ArrayList<>();
         for (EarthQuakeModel current : dataList){
-            if(current.getLocation().toLowerCase().contains(searchTerm)){
+            if(current.getLocation().toLowerCase().contains(searchTerm.toLowerCase())){
                 results.add(current);
             }
         }
