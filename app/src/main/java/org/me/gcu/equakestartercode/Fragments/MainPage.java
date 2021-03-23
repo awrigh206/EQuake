@@ -70,8 +70,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         //Switch everything to lower case to ensure fair comparison
         ArrayList<EarthQuakeModel> results = new ArrayList<>();
         for (EarthQuakeModel current : dataList){
-            Method getMethod = getCategoryMethod(searchCategory,current);
-
+            Method getMethod = getCategoryMethod(searchCategory);
             try {
                 if(getMethod.invoke(current).toString().toLowerCase().contains(searchTerm.toLowerCase())){
                     results.add(current);
@@ -85,18 +84,18 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         return results;
     }
 
-    private Method getCategoryMethod(String category, EarthQuakeModel currentModel)  {
+    private Method getCategoryMethod(String category )  {
         category = category.toLowerCase();
         try{
             switch(category){
                 case "title":
-                    return currentModel.getClass().getMethod("getTitle",null);
+                    return EarthQuakeModel.class.getMethod("getTitle",null);
                 case "description":
-                    return currentModel.getClass().getMethod("getDescription",null);
+                    return EarthQuakeModel.class.getMethod("getDescription",null);
                 case "location":
-                    return currentModel.getClass().getMethod("getLocation",null);
+                    return EarthQuakeModel.class.getMethod("getLocation",null);
                 default:
-                    return currentModel.getClass().getMethod("getLocation",null);
+                    return EarthQuakeModel.class.getMethod("getLocation",null);
             }
         }
         catch(NoSuchMethodException noMethod){
@@ -112,13 +111,13 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        listFragment.updateListView(search(s));
+        listFragment.updateListView(search(s),getCategoryMethod(searchCategory));
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String s) {
-        listFragment.updateListView(search(s));
+        listFragment.updateListView(search(s),getCategoryMethod(searchCategory));
         return true;
     }
 
@@ -126,7 +125,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         Log.e("Spinner", "You have selected: " + categories[position]);
         this.searchCategory = categories[position];
-        listFragment.updateListView(search(""));
+        listFragment.updateListView(search(""),getCategoryMethod(searchCategory));
 
     }
 

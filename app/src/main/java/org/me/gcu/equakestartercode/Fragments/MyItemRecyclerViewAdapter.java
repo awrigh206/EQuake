@@ -10,14 +10,18 @@ import android.widget.TextView;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements View.OnClickListener{
 
     private final List<EarthQuakeModel> mValues;
+    private Method getMethod;
 
-    public MyItemRecyclerViewAdapter(List<EarthQuakeModel> items) {
+    public MyItemRecyclerViewAdapter(List<EarthQuakeModel> items, Method getMethod) {
         mValues = items;
+        this.getMethod = getMethod;
     }
 
     @Override
@@ -31,7 +35,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 //        holder.mIdView.setText(mValues.get(position).getTitle());
-        holder.mContentView.setText(mValues.get(position).getLocation());
+        try {
+            holder.mContentView.setText(getMethod.invoke(mValues.get(position)).toString());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

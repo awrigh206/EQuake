@@ -63,9 +63,9 @@ public class ListFragment extends Fragment {
         }
     }
 
-    public void updateListView(List<EarthQuakeModel> listItems){
+    public void updateListView(List<EarthQuakeModel> listItems, Method getMethod){
         recyclerView.removeAllViews();
-        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(listItems));
+        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(listItems,getMethod));
     }
 
     @Override
@@ -89,7 +89,11 @@ public class ListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(viewModel.getData().getValue()));
+            try {
+                recyclerView.setAdapter(new MyItemRecyclerViewAdapter(viewModel.getData().getValue(),EarthQuakeModel.class.getMethod("getLocation",null)));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
             this.recyclerView = recyclerView;
         }
         return view;
