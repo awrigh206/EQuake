@@ -1,9 +1,11 @@
 package org.me.gcu.equakestartercode.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.SearchView;
@@ -18,10 +20,13 @@ import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener{
+public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener {
     private ImageButton mapButton;
     private SearchView searchBox;
     private ListViewModel listViewModel;
@@ -30,6 +35,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
     private Spinner searchTermSpinner;
     private String[] categories = {"Title","Description","Location","Latitude","Longitude"};
+    private String searchCategory = "Title";
     public MainPage(){}
 
     @Nullable
@@ -46,7 +52,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_dropdown_item_1line);
         adapter.addAll(categories);
         searchTermSpinner.setAdapter(adapter);
-
+        searchTermSpinner.setOnItemSelectedListener(this);
         mapButton.setOnClickListener(this);
         searchBox.setOnQueryTextListener(this);
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
@@ -64,11 +70,39 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         //Switch everything to lower case to ensure fair comparison
         ArrayList<EarthQuakeModel> results = new ArrayList<>();
         for (EarthQuakeModel current : dataList){
-            if(current.getLocation().toLowerCase().contains(searchTerm.toLowerCase())){
-                results.add(current);
+            Method getMethod = getCategoryMethod(searchCategory,current);
+
+            try {
+                if(getMethod.invoke(current).toString().toLowerCase().contains(searchTerm.toLowerCase())){
+                    results.add(current);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
             }
         }
         return results;
+    }
+
+    private Method getCategoryMethod(String category, EarthQuakeModel currentModel)  {
+        category = category.toLowerCase();
+        try{
+            switch(category){
+                case "title":
+                    return currentModel.getClass().getMethod("getTitle",null);
+                case "description":
+                    return currentModel.getClass().getMethod("getDescription",null);
+                case "location":
+                    return currentModel.getClass().getMethod("getLocation",null);
+                default:
+                    return currentModel.getClass().getMethod("getLocation",null);
+            }
+        }
+        catch(NoSuchMethodException noMethod){
+            noMethod.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -86,5 +120,18 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     public boolean onQueryTextChange(String s) {
         listFragment.updateListView(search(s));
         return true;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        Log.e("Spinner", "You have selected: " + categories[position]);
+        this.searchCategory = categories[position];
+        listFragment.updateListView(search(""));
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
