@@ -30,10 +30,10 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private ImageButton mapButton;
     private SearchView searchBox;
     private ListViewModel listViewModel;
-    private Bundle bundle;
     private ListFragment listFragment;
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
     private Spinner searchTermSpinner;
+    private String searchText;
     private String[] categories = {"Title","Description","Location","Latitude","Longitude"};
     private String searchCategory = "Title";
     public MainPage(){}
@@ -58,11 +58,9 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
         listViewModel = (ListViewModel)new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
         listViewModel.setContext(getContext());
-        bundle = new Bundle();
         List tempList = listViewModel.getData().getValue();
         //convert to ArrayList for the sake of Bundle
         dataList.addAll(tempList);
-        bundle.putParcelableArrayList("data",dataList);
         return view;
     }
 
@@ -106,18 +104,22 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
 
     @Override
     public void onClick(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_mainPage_to_mapsFragment,bundle);
+        Bundle mapBundle = new Bundle();
+        mapBundle.putParcelableArrayList("data",search(searchText));
+        Navigation.findNavController(view).navigate(R.id.action_mainPage_to_mapsFragment,mapBundle);
     }
 
     @Override
     public boolean onQueryTextSubmit(String s) {
         listFragment.updateListView(search(s),getCategoryMethod(searchCategory));
+        this.searchText = s;
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String s) {
         listFragment.updateListView(search(s),getCategoryMethod(searchCategory));
+        this.searchText = s;
         return true;
     }
 
