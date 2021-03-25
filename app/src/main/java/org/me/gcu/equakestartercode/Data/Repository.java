@@ -18,7 +18,6 @@ import javax.inject.Singleton;
 public class Repository {
     private final RemoteDataSource remoteDataSource;
     private final LocalDataSource localDataSource;
-    private List<EarthQuakeModel> earthQuakeModels;
     private MutableLiveData<List<EarthQuakeModel>> liveData;
     private final ResourcePool resourcePool;
 
@@ -37,7 +36,6 @@ public class Repository {
     }
 
     public MutableLiveData<List<EarthQuakeModel>> getLiveData(boolean isOnline) {
-        earthQuakeModels = getModels(isOnline);
         liveData = new MutableLiveData<>();
         liveData.setValue(getModels(isOnline));
         return liveData;

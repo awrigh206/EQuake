@@ -55,9 +55,17 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         searchTermSpinner.setOnItemSelectedListener(this);
         mapButton.setOnClickListener(this);
         searchBox.setOnQueryTextListener(this);
+
+        ListViewModel model = new ViewModelProvider(this).get(ListViewModel.class);
+        model.getData().observe(getViewLifecycleOwner(), users -> {
+            // Use this observer to update the user interface when the values inside the repository change
+        });
+
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
         listViewModel = (ListViewModel)new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
-        listViewModel.setContext(getContext());
+//        listViewModel.setContext(getContext());
+
+
         List tempList = listViewModel.getData().getValue();
         //convert to ArrayList for the sake of Bundle
         dataList.addAll(tempList);
@@ -105,7 +113,19 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     @Override
     public void onClick(View view) {
         Bundle mapBundle = new Bundle();
-        mapBundle.putParcelableArrayList("data",search(searchText));
+        ArrayList listToSendToMap;
+        if(searchText != null){
+            if(!searchText.isEmpty()){
+                listToSendToMap = search(searchText);
+            }
+            else{
+                listToSendToMap = dataList;
+            }
+        }
+        else{
+            listToSendToMap = dataList;
+        }
+        mapBundle.putParcelableArrayList("data",listToSendToMap);
         Navigation.findNavController(view).navigate(R.id.action_mainPage_to_mapsFragment,mapBundle);
     }
 

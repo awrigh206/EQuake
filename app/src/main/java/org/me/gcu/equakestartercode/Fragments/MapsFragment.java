@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapsFragment extends Fragment {
-//    ListViewModel listViewModel;
     ArrayList<EarthQuakeModel> dataList;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -43,7 +42,6 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-//            addMarkers(googleMap,listViewModel.getData().getValue());
             addMarkers(googleMap,dataList);
         }
     };
@@ -64,10 +62,6 @@ public class MapsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         dataList = getArguments().getParcelableArrayList("data");
-//        ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
-//        listViewModel = (ListViewModel)new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
-//        listViewModel.setContext(getContext());
-//        Log.e("maps", "Lists: " +listViewModel.getData().getValue());
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
