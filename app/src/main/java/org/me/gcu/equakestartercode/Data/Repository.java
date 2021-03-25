@@ -26,6 +26,8 @@ public class Repository {
         this.remoteDataSource = remoteDataSource;
         this.localDataSource = localDataSource;
         this.resourcePool = resourcePool;
+        this.liveData = new MutableLiveData<>();
+        this.liveData.setValue(getModels(true));
     }
 
     private void updateLocalDataWithRemoteData(){
@@ -36,8 +38,6 @@ public class Repository {
     }
 
     public MutableLiveData<List<EarthQuakeModel>> getLiveData(boolean isOnline) {
-        liveData = new MutableLiveData<>();
-        liveData.setValue(getModels(isOnline));
         return liveData;
     }
 
@@ -83,6 +83,7 @@ public class Repository {
                 resourcePool.getExecutorService().execute(() -> {
                     try {
                         if(isOnline){
+                            liveData.postValue(remoteDataSource.getModels());
                             remoteDataSource.updateModels();
                             Thread.sleep(100);
                             if(remoteDataSource.hasData()){

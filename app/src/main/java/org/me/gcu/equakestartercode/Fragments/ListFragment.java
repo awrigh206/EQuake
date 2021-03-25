@@ -72,13 +72,20 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_list, container, false);
-        ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
-        viewModel = new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
-        viewModel.setContext(getContext());
+        ListViewModelFactory listViewModelFactory = new ListViewModelFactory(getContext());
+        viewModel = new ViewModelProvider(requireActivity(), listViewModelFactory).get(ListViewModel.class);
 
         if(viewModel.getData() == null){
             android.os.SystemClock.sleep(1000);
         }
+        if(viewModel.getData().getValue().isEmpty()){
+
+        }
+        viewModel.getData().observe(getViewLifecycleOwner(), models -> {
+            android.os.SystemClock.sleep(1000);
+        });
+
+        Log.e("values", viewModel.getData().getValue().toString());
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -98,7 +105,5 @@ public class ListFragment extends Fragment {
         }
         return view;
     }
-
-    public Repository getRepository(){return viewModel.getRepository();}
 
 }

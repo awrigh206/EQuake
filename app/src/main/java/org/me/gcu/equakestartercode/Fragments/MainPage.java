@@ -56,19 +56,13 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         mapButton.setOnClickListener(this);
         searchBox.setOnQueryTextListener(this);
 
-        ListViewModel model = new ViewModelProvider(this).get(ListViewModel.class);
-        model.getData().observe(getViewLifecycleOwner(), users -> {
+        ListViewModelFactory listViewModelFactory = new ListViewModelFactory(getContext());
+        listViewModel = new ViewModelProvider(requireActivity(), listViewModelFactory).get(ListViewModel.class);
+        listViewModel.getData().observe(getViewLifecycleOwner(), models -> {
             // Use this observer to update the user interface when the values inside the repository change
+            dataList.clear();
+            dataList.addAll(models);
         });
-
-        ListViewModelFactory listViewModelFactory = new ListViewModelFactory();
-        listViewModel = (ListViewModel)new ViewModelProvider(this, listViewModelFactory).get(ListViewModel.class);
-//        listViewModel.setContext(getContext());
-
-
-        List tempList = listViewModel.getData().getValue();
-        //convert to ArrayList for the sake of Bundle
-        dataList.addAll(tempList);
         return view;
     }
 

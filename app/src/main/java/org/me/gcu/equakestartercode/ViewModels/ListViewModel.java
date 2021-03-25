@@ -20,8 +20,10 @@ public class ListViewModel extends ViewModel {
     private Repository repository;
     private Context context;
 
-    public ListViewModel (Repository repository){
+    public ListViewModel (Repository repository, Context context){
         this.repository = repository;
+        this.context = context;
+        repository.setContext(context,isOnline());
     }
     public MutableLiveData<List<EarthQuakeModel>> getData(){
         return repository.getLiveData(isOnline());
