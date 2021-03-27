@@ -10,6 +10,8 @@ import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,13 +29,24 @@ public class Repository {
         this.localDataSource = localDataSource;
         this.resourcePool = resourcePool;
         this.liveData = new MutableLiveData<>();
-        this.liveData.setValue(getModels(true));
     }
 
-    private void updateLocalDataWithRemoteData(){
+    public void setContext(Context context, boolean isOnline){
+        this.localDataSource.setContext(context);
+        try {
+            this.liveData.postValue(getModels(true).get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        setUpdateTimer(isOnline);
+    }
+
+    private void updateLocalDataWithRemoteData() throws ExecutionException, InterruptedException {
         //This method updates the data inside the local database with the cached data from the remote datasource
         if(remoteDataSource.hasData()){
-            localDataSource.updateData(remoteDataSource.getModels());
+            localDataSource.updateData(remoteDataSource.getModels().get());
         }
     }
 
@@ -47,22 +60,12 @@ public class Repository {
      * If local data source does not have data then it will attempt to wait for Current data to be parsed
      * @return
      */
-    public List<EarthQuakeModel> getModels(boolean online){
+    public Future<List<EarthQuakeModel>> getModels(boolean online){
         try{
             if(online){
-                if(remoteDataSource.hasData()){
-                    Log.e("Source","Getting from remote datasource");
-                    updateLocalDataWithRemoteData();
-                    return remoteDataSource.getModels();
-                }
-                else if (localDataSource.hasData()){
-                    Log.e("Source","Getting from Local data source");
-                    return localDataSource.getModels();
-                }
-                else{
-                    Log.e("Source","Getting direct from source");
-                    return remoteDataSource.getModelsDirectFromSource();
-                }
+                Log.e("Source","Getting from remote datasource");
+                updateLocalDataWithRemoteData();
+                return remoteDataSource.getModels();
             }
             else{
                 Log.e("Source","Getting from Local data source");
@@ -83,26 +86,20 @@ public class Repository {
                 resourcePool.getExecutorService().execute(() -> {
                     try {
                         if(isOnline){
-                            liveData.postValue(remoteDataSource.getModels());
+                            liveData.postValue(remoteDataSource.getModels().get());
                             remoteDataSource.updateModels();
                             Thread.sleep(100);
                             if(remoteDataSource.hasData()){
-                                localDataSource.updateData(remoteDataSource.getModels());
+                                localDataSource.updateData(remoteDataSource.getModels().get());
                             }
                         }
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 });
             }
         }, 0, 100000);
     }
-
-    public void setContext(Context context, boolean isOnline){
-        this.localDataSource.setContext(context);
-        setUpdateTimer(isOnline);
-    }
-
 
     public RemoteDataSource getRemoteDataSource(){
         return this.remoteDataSource;

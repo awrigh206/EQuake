@@ -28,22 +28,23 @@ public class RemoteDataSource {
         this.models = resourcePool.getExecutorService().submit(xmlParser);
     }
 
-    public List<EarthQuakeModel> getModels() {
-        if(models.isDone()){
-            try {
-                return models.get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return new LinkedList<>();
+    public Future<List<EarthQuakeModel>> getModels() {
+//        if(models.isDone()){
+//            try {
+//                return models.get();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return new LinkedList<>();
+        return models;
     }
 
     public boolean hasData (){
-        if(getModels() != null){
-            if(!getModels().isEmpty()){
+        if(models != null){
+            if(models.isDone()){
                 return true;
             }
             else{

@@ -1,6 +1,7 @@
 package org.me.gcu.equakestartercode.Data;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
@@ -44,15 +45,16 @@ public class LocalDataSource {
         return models.isDone();
     }
 
-    public List<EarthQuakeModel> getModels() throws ExecutionException, InterruptedException {
-        if(models.isDone()){
-            return models.get();
-        }
-        else{
-            while(!models.isDone()){
-                android.os.SystemClock.sleep(100);
-            }
-            return models.get();
-        }
+    public Future<List<EarthQuakeModel>> getModels() throws ExecutionException, InterruptedException {
+//        if(models.isDone()){
+//            return models.get();
+//        }
+//        else{
+//            while(!models.isDone()){
+//                android.os.SystemClock.sleep(100);
+//            }
+//            return models.get();
+//        }
+        return models;
     }
 }

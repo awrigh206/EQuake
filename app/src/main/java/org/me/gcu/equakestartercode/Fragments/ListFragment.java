@@ -75,17 +75,14 @@ public class ListFragment extends Fragment {
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory(getContext());
         viewModel = new ViewModelProvider(requireActivity(), listViewModelFactory).get(ListViewModel.class);
 
-        if(viewModel.getData() == null){
-            android.os.SystemClock.sleep(1000);
-        }
-        if(viewModel.getData().getValue().isEmpty()){
-
-        }
         viewModel.getData().observe(getViewLifecycleOwner(), models -> {
-            android.os.SystemClock.sleep(1000);
+            Log.e("observer", "Value changed");
+            try {
+                updateListView(models, EarthQuakeModel.class.getMethod("getLocation",null));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
         });
-
-        Log.e("values", viewModel.getData().getValue().toString());
 
         // Set the adapter
         if (view instanceof RecyclerView) {
