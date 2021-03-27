@@ -1,5 +1,6 @@
 package org.me.gcu.equakestartercode.Fragments;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
@@ -50,7 +51,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             }
 
             holder.mContentView.setOnClickListener(view -> {
-                Log.e("Click", "An earthquake in the list was clicked");
+                Log.e("Clicked", "on an earthquake");
+                Navigation.findNavController(view).navi
             });
         } catch (IllegalAccessException e) {
             e.printStackTrace();
