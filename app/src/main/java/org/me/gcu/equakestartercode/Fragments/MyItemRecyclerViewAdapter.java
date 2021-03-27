@@ -2,6 +2,8 @@ package org.me.gcu.equakestartercode.Fragments;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 //        holder.mIdView.setText(mValues.get(position).getTitle());
         try {
             holder.mContentView.setText(getMethod.invoke(mValues.get(position)).toString());
+            if(holder.mItem.getMagnitude() < 2.0){
+                holder.mView.setBackgroundColor(Color.GREEN);
+            }
+            else if(holder.mItem.getMagnitude() > 2.0 && holder.mItem.getMagnitude() < 4.0){
+                holder.mView.setBackgroundColor(Color.YELLOW);
+            }
+            else if(holder.mItem.getMagnitude() > 4.0){
+                holder.mView.setBackgroundColor(Color.RED);
+            }
+
+            holder.mContentView.setOnClickListener(view -> {
+                Log.e("Click", "An earthquake in the list was clicked");
+            });
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -51,7 +66,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onClick(View view) {
-
+        Log.e("Earthquake", "you clicked on: " + view.findViewById(R.id.content).toString());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
