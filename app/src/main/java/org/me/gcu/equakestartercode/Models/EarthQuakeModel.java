@@ -1,6 +1,15 @@
 package org.me.gcu.equakestartercode.Models;
 
-public class EarthQuakeModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
+public class EarthQuakeModel implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String title;
     private String description;
     private String link;
@@ -10,6 +19,8 @@ public class EarthQuakeModel {
     private double lon;
     private double magnitude;
     private String depth;
+    private String location;
+    private String dateString;
 
     public EarthQuakeModel(String title, String description, String link, String pubDate, String category, double lat, double lon) {
         this.title = title;
@@ -22,16 +33,31 @@ public class EarthQuakeModel {
         parseDescription();
     }
 
+    private EarthQuakeModel (Parcel parcel){
+        id = parcel.readInt();
+        title = parcel.readString();
+        description = parcel.readString();
+        link = parcel.readString();
+        pubDate = parcel.readString();
+        category = parcel.readString();
+        lat = parcel.readDouble();
+        lon = parcel.readDouble();
+        magnitude = parcel.readDouble();
+        depth = parcel.readString();
+    }
+
     public void parseDescription (){
         String[] partsOfDescription = this.description.split(";");
-        String magString = partsOfDescription[partsOfDescription.length-1];
-        String depthString = partsOfDescription[partsOfDescription.length-2];
+        this.magnitude = Double.parseDouble(parseInfo(partsOfDescription,1));
+        this.depth = parseInfo(partsOfDescription,2);
+        this.location = parseInfo(partsOfDescription,4);
+        this.dateString = parseInfo(partsOfDescription,5);
+    }
 
-        String[] partsMag = magString.split(":");
-        String[] depthParts = depthString.split(":");
-
-        this.magnitude = Double.parseDouble(partsMag[1]);
-        this.depth = depthParts[1];
+    private String parseInfo(String[] parts, int distanceFromEnd){
+        String text = parts[parts.length-distanceFromEnd];
+        String[] currentParts = text.split(":");
+        return currentParts[1];
     }
 
     public String toString(){
@@ -94,5 +120,74 @@ public class EarthQuakeModel {
 
     public void setLon(double lon) {
         this.lon = lon;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getMagnitude() {
+        return magnitude;
+    }
+
+    public void setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    public String getDepth() {
+        return depth;
+    }
+
+    public void setDepth(String depth) {
+        this.depth = depth;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(link);
+        parcel.writeString(pubDate);
+        parcel.writeString(category);
+        parcel.writeDouble(lat);
+        parcel.writeDouble(lon);
+        parcel.writeDouble(magnitude);
+        parcel.writeString(depth);
+    }
+
+    public static final Parcelable.Creator<EarthQuakeModel> CREATOR = new Parcelable.Creator<EarthQuakeModel>() {
+        public EarthQuakeModel createFromParcel(Parcel in) {
+            return new EarthQuakeModel(in);
+        }
+
+        public EarthQuakeModel[] newArray(int size) {
+            return new EarthQuakeModel[size];
+        }
+    };
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
     }
 }
