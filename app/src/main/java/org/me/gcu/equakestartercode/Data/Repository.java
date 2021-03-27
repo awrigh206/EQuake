@@ -12,7 +12,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -101,12 +100,5 @@ public class Repository {
             }
         }, 0, 100000);
     }
-
-    public RemoteDataSource getRemoteDataSource(){
-        return this.remoteDataSource;
-    }
-
-    public LocalDataSource getLocalDataSource(){
-        return this.localDataSource;}
 
 }
