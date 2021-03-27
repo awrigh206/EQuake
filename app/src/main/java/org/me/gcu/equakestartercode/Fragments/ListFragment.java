@@ -2,8 +2,10 @@ package org.me.gcu.equakestartercode.Fragments;
 
 import android.content.Context;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
