@@ -19,5 +19,13 @@
             app:destination="@id/mapsFragment"
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_mainPage_to_dataFragment"
+            app:destination="@id/dataFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/dataFragment"
+        android:name="org.me.gcu.equakestartercode.Fragments.DataFragment"
+        android:label="fragment_data"
+        tools:layout="@layout/fragment_data" />
 </navigation>

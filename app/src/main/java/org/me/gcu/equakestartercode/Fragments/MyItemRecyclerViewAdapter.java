@@ -4,6 +4,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements View.OnClickListener{
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>{
 
     private final List<EarthQuakeModel> mValues;
     private Method getMethod;
@@ -51,8 +52,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             }
 
             holder.mContentView.setOnClickListener(view -> {
-                Log.e("Clicked", "on an earthquake");
-                Navigation.findNavController(view).navi
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("data", holder.mItem);
+                Navigation.findNavController(view).navigate(R.id.action_mainPage_to_dataFragment,bundle);
             });
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -64,11 +66,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public int getItemCount() {
         return mValues.size();
-    }
-
-    @Override
-    public void onClick(View view) {
-        Log.e("Earthquake", "you clicked on: " + view.findViewById(R.id.content).toString());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
