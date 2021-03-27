@@ -29,16 +29,6 @@ public class RemoteDataSource {
     }
 
     public Future<List<EarthQuakeModel>> getModels() {
-//        if(models.isDone()){
-//            try {
-//                return models.get();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return new LinkedList<>();
         return models;
     }
 

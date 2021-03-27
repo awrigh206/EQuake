@@ -34,7 +34,7 @@ public class Repository {
     public void setContext(Context context, boolean isOnline){
         this.localDataSource.setContext(context);
         try {
-            this.liveData.postValue(getModels(true).get());
+            this.liveData.postValue(getModels(isOnline).get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -83,6 +83,7 @@ public class Repository {
         updateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                Log.e("Timer", "The timer is running");
                 resourcePool.getExecutorService().execute(() -> {
                     try {
                         if(isOnline){

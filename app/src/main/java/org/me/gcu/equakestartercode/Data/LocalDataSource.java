@@ -46,15 +46,6 @@ public class LocalDataSource {
     }
 
     public Future<List<EarthQuakeModel>> getModels() throws ExecutionException, InterruptedException {
-//        if(models.isDone()){
-//            return models.get();
-//        }
-//        else{
-//            while(!models.isDone()){
-//                android.os.SystemClock.sleep(100);
-//            }
-//            return models.get();
-//        }
         return models;
     }
 }
