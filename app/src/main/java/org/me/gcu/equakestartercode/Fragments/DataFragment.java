@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,6 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
@@ -25,6 +29,8 @@ import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 public class DataFragment extends Fragment {
     private DataViewModel viewModel;
     private EarthQuakeModel earthQuakeModel;
+    private TextView myLocationText;
+    private TextView quakeLocationText;
 
     public DataFragment() {
         // Required empty public constructor
@@ -40,10 +46,14 @@ public class DataFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getLocation();
         earthQuakeModel = getArguments().getParcelable("data");
+        getLocation();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_data, container, false);
+        View view = inflater.inflate(R.layout.fragment_data, container, false);
+        myLocationText = (TextView) view.findViewById(R.id.currentLocationText);
+        quakeLocationText = (TextView) view.findViewById(R.id.quakeLocationText);
+        quakeLocationText.setText("Location of Quake- Lat:"+earthQuakeModel.getLat()+ " Long:"+earthQuakeModel.getLon());
+        return view;
     }
 
     private void getLocation(){
@@ -53,6 +63,7 @@ public class DataFragment extends Fragment {
 
         viewModel.findLocation().observe(getViewLifecycleOwner(), location -> {
             Log.e("location", "is: " + viewModel.findLocation().getValue().toString());
+            myLocationText.setText("Lat:"+location.getLatitude() + " Long:"+location.getLongitude());
         });
     }
 
