@@ -24,6 +24,7 @@ import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 
 public class DataFragment extends Fragment {
     private DataViewModel viewModel;
+    private EarthQuakeModel earthQuakeModel;
 
     public DataFragment() {
         // Required empty public constructor
@@ -40,6 +41,7 @@ public class DataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getLocation();
+        earthQuakeModel = getArguments().getParcelable("data");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_data, container, false);
     }
@@ -55,8 +57,7 @@ public class DataFragment extends Fragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if(requestCode == 1){
             viewModel.findLocation();
         }

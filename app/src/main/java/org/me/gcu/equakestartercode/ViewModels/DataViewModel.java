@@ -1,26 +1,14 @@
 package org.me.gcu.equakestartercode.ViewModels;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.CancellationSignal;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.me.gcu.equakestartercode.Data.ResourcePool;
-import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
-
-import java.util.concurrent.Future;
-
-import javax.inject.Inject;
 
 import static android.content.Context.LOCATION_SERVICE;
 
