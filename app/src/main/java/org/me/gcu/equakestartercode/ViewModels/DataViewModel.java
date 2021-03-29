@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.me.gcu.equakestartercode.Data.ResourcePool;
+import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -20,6 +21,13 @@ public class DataViewModel extends ViewModel implements LocationListener {
     public DataViewModel(ResourcePool resourcePool, Context context) {
         this.resourcePool = resourcePool;
         this.context = context;
+    }
+
+    public float distanceToPoint(EarthQuakeModel quake){
+        Location quakeLocation = new Location("");
+        quakeLocation.setLatitude(quake.getLat());
+        quakeLocation.setLongitude(quake.getLon());
+        return currentLocation.getValue().distanceTo(quakeLocation);
     }
 
     public MutableLiveData<Location> findLocation() {
