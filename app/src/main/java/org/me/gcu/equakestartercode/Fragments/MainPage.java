@@ -1,5 +1,6 @@
 package org.me.gcu.equakestartercode.Fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,16 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
+import org.me.gcu.equakestartercode.Models.EarthQuakeModelComparator;
+import org.me.gcu.equakestartercode.Models.EarthQuakeModelReverseComparator;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
@@ -26,7 +32,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener {
+public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private ImageButton mapButton;
     private SearchView searchBox;
     private ListViewModel listViewModel;
@@ -34,8 +40,9 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
     private Spinner searchTermSpinner;
     private String searchText;
-    private String[] categories = {"Title","Description","Location","Latitude","Longitude"};
+    private String[] categories = {"Title","Description","Location","Latitude","Longitude", "Magnitude"};
     private String searchCategory = "Title";
+    private Switch orderSwitch;
     public MainPage(){}
 
     @Nullable
@@ -48,6 +55,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         mapButton = (ImageButton)view.findViewById(R.id.mapButton);
         searchBox = (SearchView)view.findViewById(R.id.searchBox);
         searchTermSpinner = (Spinner) view.findViewById(R.id.spinner);
+        orderSwitch = (Switch) view.findViewById(R.id.orderSwitch);
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_dropdown_item_1line);
         adapter.addAll(categories);
@@ -55,6 +63,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         searchTermSpinner.setOnItemSelectedListener(this);
         mapButton.setOnClickListener(this);
         searchBox.setOnQueryTextListener(this);
+        orderSwitch.setOnCheckedChangeListener(this);
 
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory(getContext());
         listViewModel = new ViewModelProvider(requireActivity(), listViewModelFactory).get(ListViewModel.class);
@@ -94,6 +103,8 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
                     return EarthQuakeModel.class.getMethod("getDescription",null);
                 case "location":
                     return EarthQuakeModel.class.getMethod("getLocation",null);
+                case "magnitude":
+                    return EarthQuakeModel.class.getMethod("getMagnitude", null);
                 default:
                     return EarthQuakeModel.class.getMethod("getLocation",null);
             }
@@ -148,5 +159,17 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(b){
+            dataList.sort(new EarthQuakeModelComparator());
+        }
+        else{
+            dataList.sort(new EarthQuakeModelReverseComparator());
+        }
+        listFragment.updateListView(dataList, getCategoryMethod(searchCategory));
     }
 }
