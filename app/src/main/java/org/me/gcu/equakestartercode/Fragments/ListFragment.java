@@ -78,7 +78,7 @@ public class ListFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity(), listViewModelFactory).get(ListViewModel.class);
 
         viewModel.getData().observe(getViewLifecycleOwner(), models -> {
-            Log.e("observer", "Value changed");
+            Log.e("observer", "Model Depth check:" + models.get(0).getDepth());
             try {
                 updateListView(models, EarthQuakeModel.class.getMethod("getLocation",null));
             } catch (NoSuchMethodException e) {

@@ -22,7 +22,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModelComparator;
+import org.me.gcu.equakestartercode.Models.EarthQuakeModelDeepestComparator;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModelReverseComparator;
+import org.me.gcu.equakestartercode.Models.EarthQuakeModelShallowestComparator;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
@@ -40,7 +42,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
     private Spinner searchTermSpinner;
     private String searchText;
-    private String[] categories = {"Title","Description","Location","Latitude","Longitude", "Magnitude"};
+    private String[] categories = {"Title","Description","Location","Latitude","Longitude", "Magnitude", "Depth"};
     private String searchCategory = "Title";
     private Switch orderSwitch;
     public MainPage(){}
@@ -71,6 +73,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
             // Use this observer to update the user interface when the values inside the repository change
             dataList.clear();
             dataList.addAll(models);
+            dataList.sort(new EarthQuakeModelReverseComparator());
         });
         return view;
     }
@@ -105,6 +108,8 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
                     return EarthQuakeModel.class.getMethod("getLocation",null);
                 case "magnitude":
                     return EarthQuakeModel.class.getMethod("getMagnitude", null);
+                case"depth":
+                    return EarthQuakeModel.class.getMethod("getDepth",null);
                 default:
                     return EarthQuakeModel.class.getMethod("getLocation",null);
             }
@@ -164,11 +169,21 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(b){
-            dataList.sort(new EarthQuakeModelComparator());
+        if(searchCategory.equalsIgnoreCase("depth")){
+            if(b){
+                dataList.sort(new EarthQuakeModelDeepestComparator());
+            }
+            else{
+                dataList.sort(new EarthQuakeModelShallowestComparator());
+            }
         }
         else{
-            dataList.sort(new EarthQuakeModelReverseComparator());
+            if(b){
+                dataList.sort(new EarthQuakeModelComparator());
+            }
+            else{
+                dataList.sort(new EarthQuakeModelReverseComparator());
+            }
         }
         listFragment.updateListView(dataList, getCategoryMethod(searchCategory));
     }

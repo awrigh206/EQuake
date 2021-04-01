@@ -41,10 +41,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 //        holder.mIdView.setText(mValues.get(position).getTitle());
         try {
             holder.mContentView.setText(getMethod.invoke(mValues.get(position)).toString());
-            if(holder.mItem.getMagnitude() < 2.0){
+            if(holder.mItem.getMagnitude() <= 2.0){
                 holder.mView.setBackgroundColor(Color.GREEN);
             }
-            else if(holder.mItem.getMagnitude() > 2.0 && holder.mItem.getMagnitude() < 4.0){
+            else if(holder.mItem.getMagnitude() > 2.0 && holder.mItem.getMagnitude() <= 4.0){
                 holder.mView.setBackgroundColor(Color.YELLOW);
             }
             else if(holder.mItem.getMagnitude() > 4.0){
