@@ -10,12 +10,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +32,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
@@ -44,7 +49,9 @@ public class DataFragment extends Fragment {
     private EarthQuakeModel earthQuakeModel;
     private TextView myLocationText;
     private TextView quakeLocationText;
+    private TabLayout tabLayout;
     private LineChart chart;
+    private ViewPager2 pager;
 
     public DataFragment() {
         // Required empty public constructor
@@ -66,8 +73,15 @@ public class DataFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_data, container, false);
         myLocationText = (TextView) view.findViewById(R.id.currentLocationText);
         quakeLocationText = (TextView) view.findViewById(R.id.quakeLocationText);
+        pager = (ViewPager2) view.findViewById(R.id.pager);
         chart = (LineChart) view.findViewById(R.id.chart);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        PagerCollectionAdapter adapter = new PagerCollectionAdapter(this);
+        pager.setAdapter(adapter);
         quakeLocationText.setText("Location of Quake- Lat:"+earthQuakeModel.getLat()+ " Long:"+earthQuakeModel.getLon());
+        new TabLayoutMediator(tabLayout, pager,
+                (tab, position) -> tab.setText("Page " + (position + 1))
+        ).attach();
         setupLineChart();
         return view;
     }
