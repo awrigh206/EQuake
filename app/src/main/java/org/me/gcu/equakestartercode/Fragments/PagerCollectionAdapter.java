@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import java.util.ArrayList;
+
 public class PagerCollectionAdapter extends FragmentStateAdapter {
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     public PagerCollectionAdapter(@NonNull Fragment fragment) {
         super(fragment);
     }
@@ -14,14 +17,16 @@ public class PagerCollectionAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        // Return a NEW fragment instance in createFragment(int)
         Fragment fragment = new InnerDataFragment();
         Bundle args = new Bundle();
-        // Our object is just an integer :-P
         args.putInt("arg", position + 1);
         fragment.setArguments(args);
         return fragment;
 
+    }
+
+    public void addFragment(Fragment fragment){
+        fragments.add(fragment);
     }
 
     @Override

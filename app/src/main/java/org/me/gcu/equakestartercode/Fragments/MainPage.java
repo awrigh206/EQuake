@@ -42,8 +42,8 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
     private Spinner searchTermSpinner;
     private String searchText;
-    private String[] categories = {"Title","Description","Location","Latitude","Longitude", "Magnitude", "Depth"};
-    private String searchCategory = "Title";
+    private String[] categories = {"Location&Magnitude","Description","Location","Latitude","Longitude", "Magnitude", "Depth"};
+    private String searchCategory = "Location&Magnitude";
     private Switch orderSwitch;
     public MainPage(){}
 
@@ -110,8 +110,10 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
                     return EarthQuakeModel.class.getMethod("getMagnitude", null);
                 case"depth":
                     return EarthQuakeModel.class.getMethod("getDepth",null);
+                case"Location&Magnitude":
+                    return EarthQuakeModel.class.getMethod("getLocationWithMagnitude", null);
                 default:
-                    return EarthQuakeModel.class.getMethod("getLocation",null);
+                    return EarthQuakeModel.class.getMethod("getLocationWithMagnitude",null);
             }
         }
         catch(NoSuchMethodException noMethod){
@@ -155,7 +157,6 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        Log.e("Spinner", "You have selected: " + categories[position]);
         this.searchCategory = categories[position];
         listFragment.updateListView(search(""),getCategoryMethod(searchCategory));
 

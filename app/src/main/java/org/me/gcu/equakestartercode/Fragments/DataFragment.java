@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback;
 
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -75,8 +76,35 @@ public class DataFragment extends Fragment {
         quakeLocationText = (TextView) view.findViewById(R.id.quakeLocationText);
         pager = (ViewPager2) view.findViewById(R.id.pager);
         chart = (LineChart) view.findViewById(R.id.chart);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);;
         PagerCollectionAdapter adapter = new PagerCollectionAdapter(this);
+
+        Fragment fragment = new MapsFragment();
+        Bundle args = new Bundle();
+        ArrayList<EarthQuakeModel> list = new ArrayList<>();
+        list.add(earthQuakeModel);
+        args.putParcelableArrayList("data",list);
+        fragment.setArguments(args);
+        adapter.addFragment(fragment);
+
+        pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                Log.e("Page", String.valueOf(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+
         pager.setAdapter(adapter);
         quakeLocationText.setText("Location of Quake- Lat:"+earthQuakeModel.getLat()+ " Long:"+earthQuakeModel.getLon());
         new TabLayoutMediator(tabLayout, pager,
@@ -92,7 +120,6 @@ public class DataFragment extends Fragment {
         }
 
         viewModel.findLocation().observe(getViewLifecycleOwner(), location -> {
-            Log.e("location", "is: " + viewModel.findLocation().getValue().toString());
             myLocationText.setText("you are:"+viewModel.distanceToPoint(earthQuakeModel)+"m from this earthquakes location");
         });
     }
@@ -107,7 +134,7 @@ public class DataFragment extends Fragment {
     private void setupLineChart(){
         chart.setBackgroundColor(Color.WHITE);
         chart.setGridBackgroundColor(Color.MAGENTA);
-        chart.setDrawGridBackground(true);
+        chart.setDrawGridBackground(false);
         chart.setDrawBorders(true);
         chart.getDescription().setEnabled(true);
         chart.getDescription().setText("This is a chart");
@@ -123,7 +150,7 @@ public class DataFragment extends Fragment {
         xAxis.setEnabled(false);
 
         YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setAxisMaximum(10f);
+        leftAxis.setAxisMaximum(1f);
         leftAxis.setAxisMinimum(-0f);
         leftAxis.setDrawAxisLine(true);
         leftAxis.setDrawZeroLine(true);
@@ -136,18 +163,21 @@ public class DataFragment extends Fragment {
 
     private void setChartData(Double magnitude){
         ArrayList<Entry> richterScaleValues = new ArrayList<>();
+        Double logMag = Math.log10(magnitude);
+        Log.e("mag",magnitude.toString());
+        Log.e("log mag", logMag.toString());
         for(int i =0; i<10; i++){
             if(i < magnitude && magnitude < i+1){
-                richterScaleValues.add(new Entry(i,magnitude.floatValue()));
+                richterScaleValues.add(new Entry(i,logMag.floatValue()));
             }
             else if(i < magnitude){
-                richterScaleValues.add(new Entry(i,i));
+                richterScaleValues.add(new Entry(i,(float) Math.log10(i)));
             }
             else if(i > magnitude){
-                richterScaleValues.add(new Entry(i,i));
+                richterScaleValues.add(new Entry(i,(float) Math.log10(i)));
             }
             else{
-                richterScaleValues.add(new Entry(i,magnitude.floatValue()));
+                richterScaleValues.add(new Entry(i,logMag.floatValue()));
             }
         }
 
@@ -156,8 +186,8 @@ public class DataFragment extends Fragment {
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setColor(Color.rgb(255, 241, 46));
         set.setDrawCircles(false);
-        set.setLineWidth(2f);
-        set.setCircleRadius(3f);
+        set.setLineWidth(0.1f);
+        set.setCircleRadius(0.1f);
         set.setFillAlpha(255);
         set.setDrawFilled(true);
         set.setFillColor(Color.WHITE);
