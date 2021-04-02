@@ -35,7 +35,7 @@ public class EarthQuakeModel implements Parcelable {
     }
 
     public String getLocationWithMagnitude(){
-        return location+"-"+magnitude;
+        return location+":"+magnitude;
     }
 
     private EarthQuakeModel (Parcel parcel){

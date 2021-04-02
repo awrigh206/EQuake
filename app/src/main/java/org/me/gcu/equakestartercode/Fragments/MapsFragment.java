@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
@@ -49,26 +51,32 @@ public class MapsFragment extends Fragment {
         }
     };
 
-    private void addMarkers(GoogleMap map,List<EarthQuakeModel> modelList){
-        LatLng last = new LatLng(0,0);
-        for (EarthQuakeModel current : modelList){
-            LatLng currentLocation = new LatLng(current.getLat(),current.getLon());
+    private void addMarkers(GoogleMap map,List<EarthQuakeModel> modelList) {
+        LatLng last = new LatLng(0, 0);
+        for (EarthQuakeModel current : modelList) {
+            LatLng currentLocation = new LatLng(current.getLat(), current.getLon());
             MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title(current.getLocation()).snippet("Magnitude: " + current.getMagnitude());
             markerOptions.icon(getColour(current));
+            map.setOnInfoWindowClickListener(marker -> {
+                Log.e("map", "click on: " + findModel(marker.getTitle()));
+                EarthQuakeModel model = findModel(marker.getTitle());
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("data",model);
+                Navigation.findNavController(getView()).navigate(R.id.action_mapsFragment_to_dataFragment,bundle);
+            });
             map.addMarker(markerOptions);
             last = currentLocation;
         }
         map.moveCamera(CameraUpdateFactory.newLatLng(last));
+    }
 
-//        if(holder.mItem.getMagnitude() < 2.0){
-//            holder.mView.setBackgroundColor(Color.GREEN);
-//        }
-//        else if(holder.mItem.getMagnitude() > 2.0 && holder.mItem.getMagnitude() < 4.0){
-//            holder.mView.setBackgroundColor(Color.YELLOW);
-//        }
-//        else if(holder.mItem.getMagnitude() > 4.0){
-//            holder.mView.setBackgroundColor(Color.RED);
-//        }
+    private EarthQuakeModel findModel (String location){
+        for (EarthQuakeModel current : dataList){
+            if(current.getLocation().equals(location)){
+                return current;
+            }
+        }
+        return null;
     }
 
     private BitmapDescriptor getColour(EarthQuakeModel model){

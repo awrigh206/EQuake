@@ -8,7 +8,11 @@
         android:id="@+id/mapsFragment"
         android:name="org.me.gcu.equakestartercode.Fragments.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_dataFragment"
+            app:destination="@id/dataFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainPage"
         android:name="org.me.gcu.equakestartercode.Fragments.MainPage"
