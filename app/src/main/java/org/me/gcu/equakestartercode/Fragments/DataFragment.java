@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -76,16 +77,24 @@ public class DataFragment extends Fragment {
         quakeLocationText = (TextView) view.findViewById(R.id.quakeLocationText);
         pager = (ViewPager2) view.findViewById(R.id.pager);
         chart = (LineChart) view.findViewById(R.id.chart);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);;
-        PagerCollectionAdapter adapter = new PagerCollectionAdapter(this);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
 
-        Fragment fragment = new MapsFragment();
+        Fragment mapsFragment = new MapsFragment();
+        Fragment fragmentTwo = new InnerDataFragment();
+
         Bundle args = new Bundle();
         ArrayList<EarthQuakeModel> list = new ArrayList<>();
         list.add(earthQuakeModel);
         args.putParcelableArrayList("data",list);
-        fragment.setArguments(args);
-        adapter.addFragment(fragment);
+        mapsFragment.setArguments(args);
+
+//        FragmentManager manager = getChildFragmentManager();
+//        manager.beginTransaction().add(mapsFragment, "map").add(fragmentTwo, "inner");
+//        manager.beginTransaction().attach(mapsFragment).attach(fragmentTwo);
+//        manager.putFragment(args, "key",mapsFragment);
+//        manager.putFragment(args, "key",fragmentTwo);
+        PagerCollectionAdapter adapter = new PagerCollectionAdapter(this,earthQuakeModel);
+
 
         pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
