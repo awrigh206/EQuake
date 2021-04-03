@@ -21,13 +21,6 @@ public class PagerCollectionAdapter extends FragmentStateAdapter {
         this.fragment = fragment;
     }
 
-//    @NonNull
-//    @Override
-//    public Fragment createFragment(int position) {
-////        return fragment;
-//        return new InnerDataFragment();
-//    }
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {

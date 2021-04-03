@@ -56,7 +56,6 @@ public class DataFragment extends Fragment {
     private ViewPager2 pager;
 
     public DataFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -87,12 +86,6 @@ public class DataFragment extends Fragment {
         list.add(earthQuakeModel);
         args.putParcelableArrayList("data",list);
         mapsFragment.setArguments(args);
-
-//        FragmentManager manager = getChildFragmentManager();
-//        manager.beginTransaction().add(mapsFragment, "map").add(fragmentTwo, "inner");
-//        manager.beginTransaction().attach(mapsFragment).attach(fragmentTwo);
-//        manager.putFragment(args, "key",mapsFragment);
-//        manager.putFragment(args, "key",fragmentTwo);
         PagerCollectionAdapter adapter = new PagerCollectionAdapter(this,earthQuakeModel);
 
 
