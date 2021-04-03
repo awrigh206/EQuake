@@ -78,17 +78,7 @@ public class DataFragment extends Fragment {
         chart = (LineChart) view.findViewById(R.id.chart);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
 
-        Fragment mapsFragment = new MapsFragment();
-        Fragment fragmentTwo = new InnerDataFragment();
-
-        Bundle args = new Bundle();
-        ArrayList<EarthQuakeModel> list = new ArrayList<>();
-        list.add(earthQuakeModel);
-        args.putParcelableArrayList("data",list);
-        mapsFragment.setArguments(args);
         PagerCollectionAdapter adapter = new PagerCollectionAdapter(this,earthQuakeModel);
-
-
         pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
