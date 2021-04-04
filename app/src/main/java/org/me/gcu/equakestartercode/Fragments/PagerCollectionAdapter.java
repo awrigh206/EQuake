@@ -24,22 +24,25 @@ public class PagerCollectionAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-
+        Bundle args = new Bundle();
         switch(position){
             case 0:
                 Fragment fragment = new InnerDataFragment();
-                Bundle args = new Bundle();
                 args.putInt("arg", position + 1);
                 fragment.setArguments(args);
                 return fragment;
             case 1:
                 Fragment map = new MapsFragment();
-                Bundle mapArgs = new Bundle();
                 ArrayList<EarthQuakeModel> list = new ArrayList<>();
                 list.add(model);
-                mapArgs.putParcelableArrayList("data", list);
-                map.setArguments(mapArgs);
+                args.putParcelableArrayList("data", list);
+                map.setArguments(args);
                 return map;
+            case 2:
+                Fragment energy = new EnergyFragment();
+                args.putParcelable("data", model);
+                energy.setArguments(args);
+                return energy;
         }
 
         return null;
@@ -47,6 +50,6 @@ public class PagerCollectionAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }
