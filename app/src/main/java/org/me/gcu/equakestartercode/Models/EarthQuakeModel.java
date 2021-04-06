@@ -7,6 +7,9 @@ import android.util.Log;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 public class EarthQuakeModel implements Parcelable {
     @PrimaryKey(autoGenerate = true)
@@ -57,6 +60,7 @@ public class EarthQuakeModel implements Parcelable {
         this.depth = parseInfo(partsOfDescription,2);
         this.location = parseInfo(partsOfDescription,4);
         this.dateString = parseInfo(partsOfDescription,5);
+        Log.e("Date String", dateString);
     }
 
     private String parseInfo(String[] parts, int distanceFromEnd){

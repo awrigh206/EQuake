@@ -1,5 +1,6 @@
 package org.me.gcu.equakestartercode.Fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -36,6 +38,8 @@ import java.util.List;
 
 public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private ImageButton mapButton;
+    private ImageButton startDateButton;
+    private ImageButton endDateButton;
     private SearchView searchBox;
     private ListViewModel listViewModel;
     private ListFragment listFragment;
@@ -47,6 +51,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private Switch orderSwitch;
     public MainPage(){}
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,6 +63,8 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         searchBox = (SearchView)view.findViewById(R.id.searchBox);
         searchTermSpinner = (Spinner) view.findViewById(R.id.spinner);
         orderSwitch = (Switch) view.findViewById(R.id.orderSwitch);
+        startDateButton = (ImageButton) view.findViewById(R.id.startDateButton);
+        endDateButton = (ImageButton) view.findViewById(R.id.endDateButton);
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_dropdown_item_1line);
         adapter.addAll(categories);
@@ -66,6 +73,17 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         mapButton.setOnClickListener(this);
         searchBox.setOnQueryTextListener(this);
         orderSwitch.setOnCheckedChangeListener(this);
+
+        startDateButton.setOnClickListener(view1 -> {
+            DialogFragment dialog = new DatePickerFragment();
+            dialog.show(getParentFragmentManager(), "datePicker");
+//            DatePickerDialog date = new DatePickerDialog(getContext());
+//            date.show();
+        });
+
+        endDateButton.setOnClickListener(view1 -> {
+
+        });
 
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory(getContext());
         listViewModel = new ViewModelProvider(requireActivity(), listViewModelFactory).get(ListViewModel.class);
