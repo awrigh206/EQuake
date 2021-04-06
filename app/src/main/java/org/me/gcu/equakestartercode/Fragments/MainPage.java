@@ -1,9 +1,7 @@
 package org.me.gcu.equakestartercode.Fragments;
 
-import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +21,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
-import org.me.gcu.equakestartercode.Models.EarthQuakeModelComparator;
-import org.me.gcu.equakestartercode.Models.EarthQuakeModelDeepestComparator;
-import org.me.gcu.equakestartercode.Models.EarthQuakeModelReverseComparator;
-import org.me.gcu.equakestartercode.Models.EarthQuakeModelShallowestComparator;
+import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelComparator;
+import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelDeepestComparator;
+import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelReverseComparator;
+import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelShallowestComparator;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
@@ -34,7 +32,6 @@ import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private ImageButton mapButton;

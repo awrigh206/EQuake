@@ -1,4 +1,6 @@
-package org.me.gcu.equakestartercode.Models;
+package org.me.gcu.equakestartercode.Models.Comparators;
+
+import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
 import java.util.Comparator;
 
