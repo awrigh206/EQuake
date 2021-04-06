@@ -1,5 +1,7 @@
 package org.me.gcu.equakestartercode.Data;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +22,17 @@ public class DateHelper {
         monthMap.put("Oct",10);
         monthMap.put("Nov",11);
         monthMap.put("Dec",12);
+    }
+
+    public Calendar parseStandardDate(String dateString){
+        String relevantPart = dateString.split(", ")[1];
+        String[] dateParts = relevantPart.split(" ");
+        Integer day = Integer.parseInt(dateParts[0]);
+        Integer month = convertMonthToNumber(dateParts[1]);
+        Integer year = Integer.parseInt(dateParts[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        return calendar;
     }
 
     public Integer convertMonthToNumber(String code){

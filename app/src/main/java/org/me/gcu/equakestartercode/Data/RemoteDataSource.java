@@ -44,20 +44,4 @@ public class RemoteDataSource {
         return false;
     }
 
-    public List<EarthQuakeModel> getModelsDirectFromSource(){
-        this.models = resourcePool.getExecutorService().submit(xmlParser);
-        try{
-            while (!models.isDone()){
-                android.os.SystemClock.sleep(100);
-            }
-            models.get();
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
-
-    }
 }

@@ -14,11 +14,14 @@ import androidx.lifecycle.ViewModel;
 import org.me.gcu.equakestartercode.Data.Repository;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class ListViewModel extends ViewModel {
     private Repository repository;
     private Context context;
+    private Calendar startDate;
+    private Calendar endDate;
 
     public ListViewModel (Repository repository, Context context){
         this.repository = repository;
@@ -45,5 +48,30 @@ public class ListViewModel extends ViewModel {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public boolean isDateSet(){
+        if(startDate != null && endDate != null){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

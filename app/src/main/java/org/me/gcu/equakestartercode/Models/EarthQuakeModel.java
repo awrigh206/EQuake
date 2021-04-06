@@ -60,7 +60,6 @@ public class EarthQuakeModel implements Parcelable {
         this.depth = parseInfo(partsOfDescription,2);
         this.location = parseInfo(partsOfDescription,4);
         this.dateString = parseInfo(partsOfDescription,5);
-        Log.e("Date String", dateString);
     }
 
     private String parseInfo(String[] parts, int distanceFromEnd){

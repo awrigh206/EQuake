@@ -6,9 +6,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.DatePicker;
-
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+
+import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
+import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -17,7 +23,10 @@ import java.util.Map;
 import static java.util.Calendar.*;
 
 public class DatePickerFragment extends DialogFragment implements android.app.DatePickerDialog.OnDateSetListener {
+    private boolean isStart;
+    private MutableLiveData<Calendar> date;
     public DatePickerFragment(){
+        this.date = new MutableLiveData<Calendar>();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -33,7 +42,13 @@ public class DatePickerFragment extends DialogFragment implements android.app.Da
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        Log.e("Calendar", "You have set a date");
         Log.e("date", day+"/"+month+"/"+year);
+        Calendar date = Calendar.getInstance();
+        date.set(year,month,day);
+        this.date.postValue(date);
+    }
+
+    public MutableLiveData<Calendar> getDate(){
+        return this.date;
     }
 }

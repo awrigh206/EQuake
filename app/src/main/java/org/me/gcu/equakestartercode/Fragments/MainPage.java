@@ -2,6 +2,7 @@ package org.me.gcu.equakestartercode.Fragments;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import org.me.gcu.equakestartercode.Data.DateHelper;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelComparator;
 import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelDeepestComparator;
@@ -28,10 +31,10 @@ import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelShallowest
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private ImageButton mapButton;
@@ -72,14 +75,21 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         orderSwitch.setOnCheckedChangeListener(this);
 
         startDateButton.setOnClickListener(view1 -> {
-            DialogFragment dialog = new DatePickerFragment();
-            dialog.show(getParentFragmentManager(), "datePicker");
-//            DatePickerDialog date = new DatePickerDialog(getContext());
-//            date.show();
+            DatePickerFragment dialog = new DatePickerFragment();
+            FragmentManager manager = getChildFragmentManager();
+            dialog.show(getChildFragmentManager(), "startDatePicker");
+            dialog.getDate().observe(getViewLifecycleOwner(), date -> {
+                listViewModel.setStartDate(date);
+            });;
         });
 
         endDateButton.setOnClickListener(view1 -> {
-
+            DatePickerFragment dialog = new DatePickerFragment();
+            dialog.show(getChildFragmentManager(), "endDatePicker");
+            dialog.getDate().observe(getViewLifecycleOwner(), date -> {
+                listViewModel.setEndDate(date);
+                listFragment.updateListView(searchDates(listViewModel.getStartDate(),listViewModel.getEndDate()),getCategoryMethod(searchCategory));
+            });;
         });
 
         ListViewModelFactory listViewModelFactory = new ListViewModelFactory(getContext());
@@ -90,6 +100,10 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
             dataList.addAll(models);
             dataList.sort(new EarthQuakeModelReverseComparator());
         });
+
+        if(listViewModel.isDateSet()){
+            listFragment.updateListView(searchDates(listViewModel.getStartDate(),listViewModel.getEndDate()),getCategoryMethod(searchCategory));
+        }
         return view;
     }
 
@@ -106,6 +120,21 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
+            }
+        }
+        return results;
+    }
+
+    private ArrayList<EarthQuakeModel> searchDates (Calendar startDate, Calendar endDate){
+        DateHelper dateHelper = new DateHelper();
+        ArrayList<EarthQuakeModel> results = new ArrayList<>();
+        for (EarthQuakeModel current : dataList){
+            Calendar quakeDate = dateHelper.parseStandardDate(current.getDateString());
+            if(quakeDate.before(endDate)){
+                if(quakeDate.after(startDate)){
+                    Log.e("date search", "adding");
+                    results.add(current);
+                }
             }
         }
         return results;
@@ -174,7 +203,6 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         this.searchCategory = categories[position];
         listFragment.updateListView(search(""),getCategoryMethod(searchCategory));
-
     }
 
     @Override
