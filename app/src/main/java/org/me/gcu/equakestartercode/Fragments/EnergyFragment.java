@@ -16,6 +16,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -44,8 +45,6 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
         Double energy = calculateEnergyOfQuake();
         convertToTnt(energy);
         Double power = convertToWatts(energy,2.0);
-        Log.e("Power",power.toString() + "Watts");
-        Log.e("kettle run", kettleRunTime(power).toString()+"Hours");
     }
 
     private Double calculateEnergyOfQuake(){
@@ -58,9 +57,9 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
 
     private Double convertToTnt(Double energy){
         Double tonEnergy = 4.184 * Math.pow(10,9);
-        Double tons = energy/tonEnergy;
-        Log.e("equiv", tons.toString()+"tons");
-        return tons;
+        Double kiloEnergy = tonEnergy/1000;
+        Double kilos = energy/kiloEnergy;
+        return kilos;
     }
 
     private Double convertToWatts(Double energy, Double time){
@@ -84,42 +83,44 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
         energyChart = view.findViewById(R.id.energyChart);
 
         energyChart.getDescription().setEnabled(false);
-
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
         energyChart.setMaxVisibleValueCount(60);
-
-        // scaling can now only be done on x- and y-axis separately
         energyChart.setPinchZoom(false);
 
         energyChart.setDrawBarShadow(false);
         energyChart.setDrawGridBackground(false);
 
+        String[] labels = new String[]{"I", "Really", "Hate", "This"};
         XAxis xAxis = energyChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setTextSize(11.0f);
 
         energyChart.getAxisLeft().setDrawGridLines(false);
 
-        // setting data
         seekBarX.setProgress(10);
         seekBarY.setProgress(100);
-
-        // add a nice and smooth animation
         energyChart.animateY(1500);
-
         energyChart.getLegend().setEnabled(false);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
         ArrayList<BarEntry> values = new ArrayList<>();
+        values.add(new BarEntry(0, convertToTnt(calculateEnergyOfQuake()).intValue()));
+        Log.e("TNT", convertToTnt(calculateEnergyOfQuake()).toString());
+        values.add(new BarEntry(1, 200));
+        values.add(new BarEntry(2, 300));
+        values.add(new BarEntry(3, 400));
+        BarEntry entry = new BarEntry(4, 5000);
 
-        for (int i = 0; i < seekBarX.getProgress(); i++) {
-            float multi = (seekBarY.getProgress() + 1);
-            float val = (float) (Math.random() * multi) + multi / 3;
-            values.add(new BarEntry(i, val));
-        }
+//        for (int i = 0; i < seekBarX.getProgress(); i++) {
+////            float multi = (seekBarY.getProgress() + 1);
+////            float val = (float) (Math.random() * multi) + multi / 3;
+////            values.add(new BarEntry(i, val));
+//            values.add(new BarEntry(i, convertToTnt(calculateEnergyOfQuake()).intValue()));
+//            values.add(new BarEntry())
+//        }
 
         BarDataSet set;
 

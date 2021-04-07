@@ -2,12 +2,16 @@ package org.me.gcu.equakestartercode.Fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,18 +30,35 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
+import org.me.gcu.equakestartercode.ViewModels.DataViewModel;
+import org.me.gcu.equakestartercode.ViewModels.DataViewModelFactory;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
 import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
+import org.me.gcu.equakestartercode.ViewModels.MapViewModel;
+import org.me.gcu.equakestartercode.ViewModels.MapsViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapsFragment extends Fragment {
     ArrayList<EarthQuakeModel> dataList;
+    Float zoomLevel;
+    private MapViewModel viewModel;
+    private boolean showMyLocation;
+    private Location userLocation;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             addMarkers(googleMap,dataList);
+            googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+                    if(userLocation != null){
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude())));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()),zoomLevel));
+                    }
+                }
+            });
         }
     };
 
@@ -57,7 +78,30 @@ public class MapsFragment extends Fragment {
             map.addMarker(markerOptions);
             last = currentLocation;
         }
-        map.moveCamera(CameraUpdateFactory.newLatLng(last));
+        if(zoomLevel != null){
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(last,zoomLevel));
+        }
+        else{
+            map.moveCamera(CameraUpdateFactory.newLatLng(last));
+        }
+    }
+
+    private void getLocation(){
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+
+        viewModel.findLocation().observe(getViewLifecycleOwner(), location -> {
+            Log.e("loc", "found user location");
+            userLocation = location;
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if(requestCode == 1){
+            viewModel.findLocation();
+        }
     }
 
     private EarthQuakeModel findModel (String location){
@@ -87,7 +131,15 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        MapsViewModelFactory modelFactory = new MapsViewModelFactory(getContext());
+        viewModel = new ViewModelProvider(requireActivity(), modelFactory).get(MapViewModel.class);
         dataList = getArguments().getParcelableArrayList("data");
+        zoomLevel = getArguments().getFloat("zoom");
+        showMyLocation = getArguments().getBoolean("location");
+        if(showMyLocation){
+            getLocation();
+
+        }
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 

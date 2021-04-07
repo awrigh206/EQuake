@@ -5,9 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
+import org.me.gcu.equakestartercode.ViewModels.DataViewModel;
+import org.me.gcu.equakestartercode.ViewModels.DataViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,8 @@ public class PagerCollectionAdapter extends FragmentStateAdapter {
                 ArrayList<EarthQuakeModel> list = new ArrayList<>();
                 list.add(model);
                 args.putParcelableArrayList("data", list);
+                args.putFloat("zoom",5f);
+                args.putBoolean("location",true);
                 map.setArguments(args);
                 return map;
             case 2:

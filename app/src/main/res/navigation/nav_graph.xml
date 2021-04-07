@@ -31,5 +31,9 @@
         android:id="@+id/dataFragment"
         android:name="org.me.gcu.equakestartercode.Fragments.DataFragment"
         android:label="fragment_data"
-        tools:layout="@layout/fragment_data" />
+        tools:layout="@layout/fragment_data" >
+        <action
+            android:id="@+id/action_dataFragment_to_mainPage"
+            app:destination="@id/mainPage" />
+    </fragment>
 </navigation>

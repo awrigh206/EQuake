@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -57,7 +59,6 @@ public class DataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         earthQuakeModel = getArguments().getParcelable("data");
-        getLocation();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_data, container, false);
         myLocationText = (TextView) view.findViewById(R.id.currentLocationText);
@@ -86,29 +87,11 @@ public class DataFragment extends Fragment {
         });
 
         pager.setAdapter(adapter);
-        quakeLocationText.setText("Location of Quake- Lat:"+earthQuakeModel.getLat()+ " Long:"+earthQuakeModel.getLon());
         new TabLayoutMediator(tabLayout, pager,
                 (tab, position) -> tab.setText("Page " + (position + 1))
         ).attach();
         setupLineChart();
         return view;
-    }
-
-    private void getLocation(){
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-
-        viewModel.findLocation().observe(getViewLifecycleOwner(), location -> {
-            myLocationText.setText("you are:"+viewModel.distanceToPoint(earthQuakeModel)+"m from this earthquakes location");
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if(requestCode == 1){
-            viewModel.findLocation();
-        }
     }
 
     private void setupLineChart(){
