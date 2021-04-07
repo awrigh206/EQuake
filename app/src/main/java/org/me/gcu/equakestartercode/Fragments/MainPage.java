@@ -17,12 +17,15 @@ import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import org.me.gcu.equakestartercode.Data.DateHelper;
+import org.me.gcu.equakestartercode.Models.Comparators.EasterlyComparator;
+import org.me.gcu.equakestartercode.Models.Comparators.NortherlyComparator;
+import org.me.gcu.equakestartercode.Models.Comparators.SoutherlyComparator;
+import org.me.gcu.equakestartercode.Models.Comparators.WesterlyComparator;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelComparator;
 import org.me.gcu.equakestartercode.Models.Comparators.EarthQuakeModelDeepestComparator;
@@ -35,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 
 /**
  * Name: Andrew Wright
@@ -50,7 +54,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
     private Spinner searchTermSpinner;
     private String searchText;
-    private String[] categories = {"Location&Magnitude","Description","Location", "Magnitude", "Depth"};
+    private String[] categories = {"Location&Magnitude","Description","Location", "Magnitude", "Depth", "Northern", "Southern", "Eastern", "Western"};
     private String searchCategory = "Location&Magnitude";
     private Switch orderSwitch;
     public MainPage(){}
@@ -203,10 +207,30 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         this.searchCategory = categories[position];
         listFragment.updateListView(search(""),getCategoryMethod(searchCategory));
+        Comparator<EarthQuakeModel> comparator = null;
+        switch (categories[position]){
+            case "Northern":
+                comparator = new NortherlyComparator();
+                break;
+            case "Southern":
+                comparator = new SoutherlyComparator();
+                break;
+            case "Eastern":
+                comparator = new EasterlyComparator();
+                break;
+            case"Western":
+                comparator = new WesterlyComparator();
+                break;
+        }
+        if(comparator != null){
+            dataList.sort(comparator);
+            listFragment.updateListView(dataList,getCategoryMethod(searchCategory));
+        }
     }
 
     @Override

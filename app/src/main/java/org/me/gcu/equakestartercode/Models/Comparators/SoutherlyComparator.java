@@ -12,6 +12,6 @@ public class SoutherlyComparator implements Comparator<EarthQuakeModel> {
     public int compare(EarthQuakeModel earthQuakeModel, EarthQuakeModel secondEarthQuakeModel) {
         Double firstLatitude = earthQuakeModel.getLat();
         Double secondLatitude = secondEarthQuakeModel.getLat();
-        return secondLatitude.compareTo(firstLatitude);
+        return firstLatitude.compareTo(secondLatitude);
     }
 }

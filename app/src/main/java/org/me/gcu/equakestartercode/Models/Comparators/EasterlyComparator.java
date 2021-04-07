@@ -12,7 +12,7 @@ public class EasterlyComparator implements Comparator<EarthQuakeModel> {
     public int compare(EarthQuakeModel earthQuakeModel, EarthQuakeModel secondEarthQuakeModel) {
         Double firstLongitude = earthQuakeModel.getLon();
         Double secondLongitude = secondEarthQuakeModel.getLon();
-        return firstLongitude.compareTo(secondLongitude);
+        return secondLongitude.compareTo(firstLongitude);
     }
 
 }

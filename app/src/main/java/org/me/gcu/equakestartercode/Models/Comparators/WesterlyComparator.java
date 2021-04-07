@@ -13,6 +13,6 @@ public class WesterlyComparator implements Comparator<EarthQuakeModel> {
     public int compare(EarthQuakeModel earthQuakeModel, EarthQuakeModel secondEarthQuakeModel) {
         Double firstLongitude = earthQuakeModel.getLon();
         Double secondLongitude = secondEarthQuakeModel.getLon();
-        return secondLongitude.compareTo(firstLongitude);
+        return firstLongitude.compareTo(secondLongitude);
     }
 }

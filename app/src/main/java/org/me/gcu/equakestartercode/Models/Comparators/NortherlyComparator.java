@@ -8,11 +8,11 @@ import java.util.Comparator;
  * Name: Andrew Wright
  * Student ID: S1711082
  */
-public class NotherlyComparator implements Comparator<EarthQuakeModel> {
+public class NortherlyComparator implements Comparator<EarthQuakeModel> {
     @Override
     public int compare(EarthQuakeModel earthQuakeModel, EarthQuakeModel secondEarthQuakeModel) {
         Double firstLatitude = earthQuakeModel.getLat();
         Double secondLatitude = secondEarthQuakeModel.getLat();
-        return firstLatitude.compareTo(secondLatitude);
+        return secondLatitude.compareTo(firstLatitude);
     }
 }
