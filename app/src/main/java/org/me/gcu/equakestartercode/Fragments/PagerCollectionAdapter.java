@@ -17,6 +17,10 @@ import org.me.gcu.equakestartercode.ViewModels.DataViewModelFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class PagerCollectionAdapter extends FragmentStateAdapter {
     private Fragment fragment;
     private EarthQuakeModel model;

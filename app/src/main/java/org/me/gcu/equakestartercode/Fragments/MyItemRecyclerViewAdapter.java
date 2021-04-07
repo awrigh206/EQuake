@@ -17,7 +17,10 @@ import org.me.gcu.equakestartercode.R;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>{
 
     private final List<EarthQuakeModel> mValues;

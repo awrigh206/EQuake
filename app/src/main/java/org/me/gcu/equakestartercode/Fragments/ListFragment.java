@@ -33,7 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
+ * Name: Andrew Wright
+ * Student ID: S1711082
  */
 public class ListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";

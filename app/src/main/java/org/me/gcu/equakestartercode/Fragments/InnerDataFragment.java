@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.me.gcu.equakestartercode.R;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class InnerDataFragment extends Fragment {
     private TextView text;
 

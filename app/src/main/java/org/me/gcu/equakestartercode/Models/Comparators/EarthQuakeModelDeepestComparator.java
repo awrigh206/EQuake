@@ -3,7 +3,10 @@ package org.me.gcu.equakestartercode.Models.Comparators;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
 import java.util.Comparator;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class EarthQuakeModelDeepestComparator implements Comparator<EarthQuakeModel> {
     @Override
     public int compare(EarthQuakeModel modelOne, EarthQuakeModel modelTwo) {

@@ -15,7 +15,10 @@ import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class XmlParser implements Callable<List<EarthQuakeModel>> {
     private String url="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
 

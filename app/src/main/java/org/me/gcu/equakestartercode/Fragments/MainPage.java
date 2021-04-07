@@ -36,6 +36,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class MainPage extends Fragment implements View.OnClickListener,  SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private ImageButton mapButton;
     private ImageButton startDateButton;
@@ -46,7 +50,7 @@ public class MainPage extends Fragment implements View.OnClickListener,  SearchV
     private ArrayList<EarthQuakeModel> dataList = new ArrayList<>();
     private Spinner searchTermSpinner;
     private String searchText;
-    private String[] categories = {"Location&Magnitude","Description","Location","Latitude","Longitude", "Magnitude", "Depth"};
+    private String[] categories = {"Location&Magnitude","Description","Location", "Magnitude", "Depth"};
     private String searchCategory = "Location&Magnitude";
     private Switch orderSwitch;
     public MainPage(){}

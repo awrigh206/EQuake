@@ -24,7 +24,10 @@ import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
 
 import java.util.ArrayList;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
     private EarthQuakeModel model;
     private BarChart energyChart;

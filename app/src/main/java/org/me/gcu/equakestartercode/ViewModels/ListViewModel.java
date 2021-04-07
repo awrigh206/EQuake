@@ -16,7 +16,10 @@ import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
 import java.util.Calendar;
 import java.util.List;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class ListViewModel extends ViewModel {
     private Repository repository;
     private Context context;

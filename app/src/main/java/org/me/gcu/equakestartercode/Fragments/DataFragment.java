@@ -35,7 +35,10 @@ import org.me.gcu.equakestartercode.ViewModels.DataViewModel;
 import org.me.gcu.equakestartercode.ViewModels.DataViewModelFactory;
 
 import java.util.ArrayList;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class DataFragment extends Fragment {
     private DataViewModel viewModel;
     private EarthQuakeModel earthQuakeModel;
@@ -92,8 +95,11 @@ public class DataFragment extends Fragment {
                     if(position == 1){
                         tab.setText("Quake & You");
                     }
-                    else{
+                    else if (position == 0){
                         tab.setText("Page " + (position + 1));
+                    }
+                    else if (position ==2){
+                        tab.setText("Comparison");
                     }
                 }
         ).attach();

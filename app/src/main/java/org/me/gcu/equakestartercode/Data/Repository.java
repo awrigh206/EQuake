@@ -14,7 +14,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 @Singleton
 public class Repository {
     private final RemoteDataSource remoteDataSource;

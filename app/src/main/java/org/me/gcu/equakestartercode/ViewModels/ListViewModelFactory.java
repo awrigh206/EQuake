@@ -11,7 +11,10 @@ import org.me.gcu.equakestartercode.Data.Repository;
 import org.me.gcu.equakestartercode.IApplicationGraph;
 
 import java.lang.reflect.InvocationTargetException;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class ListViewModelFactory implements ViewModelProvider.Factory{
     private Context context;
     public ListViewModelFactory(Context context){

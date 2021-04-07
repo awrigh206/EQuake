@@ -12,8 +12,11 @@ import org.me.gcu.equakestartercode.Data.ResourcePool;
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 
 import static android.content.Context.LOCATION_SERVICE;
-
-public class DataViewModel extends ViewModel implements LocationListener {
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
+public class DataViewModel extends ViewModel {
     private ResourcePool resourcePool;
     private Context context;
     private MutableLiveData<Location> currentLocation = new MutableLiveData<>();
@@ -23,21 +26,4 @@ public class DataViewModel extends ViewModel implements LocationListener {
         this.context = context;
     }
 
-    public float distanceToPoint(EarthQuakeModel quake){
-        Location quakeLocation = new Location("");
-        quakeLocation.setLatitude(quake.getLat());
-        quakeLocation.setLongitude(quake.getLon());
-        return currentLocation.getValue().distanceTo(quakeLocation);
-    }
-
-    public MutableLiveData<Location> findLocation() {
-        LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        return currentLocation;
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        currentLocation.postValue(location);
-    }
 }

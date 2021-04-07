@@ -4,7 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class DateHelper {
     private Map<String,Integer> monthMap;
 

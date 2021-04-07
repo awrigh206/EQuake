@@ -21,7 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Calendar.*;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class DatePickerFragment extends DialogFragment implements android.app.DatePickerDialog.OnDateSetListener {
     private boolean isStart;
     private MutableLiveData<Calendar> date;

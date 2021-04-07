@@ -9,7 +9,10 @@ import androidx.room.PrimaryKey;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 @Entity
 public class EarthQuakeModel implements Parcelable {
     @PrimaryKey(autoGenerate = true)

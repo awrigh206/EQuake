@@ -10,7 +10,10 @@ import org.me.gcu.equakestartercode.Data.ResourcePool;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.inject.Inject;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class DataViewModelFactory implements ViewModelProvider.Factory{
     private Context context;
     @Inject

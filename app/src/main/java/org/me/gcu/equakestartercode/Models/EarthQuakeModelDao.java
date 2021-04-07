@@ -10,7 +10,10 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 @Dao
 public interface EarthQuakeModelDao {
     @Query("SELECT * FROM EarthQuakeModel")

@@ -42,7 +42,10 @@ import org.me.gcu.equakestartercode.ViewModels.MapsViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class MapsFragment extends Fragment {
     ArrayList<EarthQuakeModel> dataList;
     Float zoomLevel;
@@ -58,7 +61,6 @@ public class MapsFragment extends Fragment {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
                     if(userLocation != null){
-                        MarkerOptions options = new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()));
                         MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude())).title("You are: ").snippet(viewModel.distanceToPoint(dataList.get(0))+"Miles from quake");
                         googleMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()),zoomLevel));

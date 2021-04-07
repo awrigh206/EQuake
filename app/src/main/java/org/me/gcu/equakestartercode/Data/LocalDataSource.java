@@ -14,7 +14,10 @@ import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 
-
+/**
+ * Name: Andrew Wright
+ * Student ID: S1711082
+ */
 public class LocalDataSource {
     private Context context;
     private Future<List<EarthQuakeModel>> models;
