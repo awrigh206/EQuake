@@ -3,30 +3,20 @@ package org.me.gcu.equakestartercode.Fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -41,8 +31,6 @@ import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
 import org.me.gcu.equakestartercode.ViewModels.DataViewModel;
 import org.me.gcu.equakestartercode.ViewModels.DataViewModelFactory;
-import org.me.gcu.equakestartercode.ViewModels.ListViewModel;
-import org.me.gcu.equakestartercode.ViewModels.ListViewModelFactory;
 
 import java.util.ArrayList;
 
