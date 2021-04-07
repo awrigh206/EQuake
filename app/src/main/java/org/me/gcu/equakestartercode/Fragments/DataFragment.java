@@ -43,6 +43,7 @@ public class DataFragment extends Fragment {
     private EarthQuakeModel earthQuakeModel;
     private TabLayout tabLayout;
     private ViewPager2 pager;
+    private TextView titleText;
 
     public DataFragment() {
     }
@@ -60,6 +61,8 @@ public class DataFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_data, container, false);
         pager = (ViewPager2) view.findViewById(R.id.pager);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        titleText = (TextView) view.findViewById(R.id.titleText);
+        titleText.setText(earthQuakeModel.getTitle());
 
         PagerCollectionAdapter adapter = new PagerCollectionAdapter(this,earthQuakeModel);
         pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
