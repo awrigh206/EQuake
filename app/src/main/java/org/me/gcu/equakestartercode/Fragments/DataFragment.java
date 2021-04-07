@@ -88,7 +88,14 @@ public class DataFragment extends Fragment {
 
         pager.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, pager,
-                (tab, position) -> tab.setText("Page " + (position + 1))
+                (tab, position) -> {
+                    if(position == 1){
+                        tab.setText("Quake & You");
+                    }
+                    else{
+                        tab.setText("Page " + (position + 1));
+                    }
+                }
         ).attach();
         setupLineChart();
         return view;

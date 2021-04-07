@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +28,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
 import org.me.gcu.equakestartercode.R;
@@ -46,6 +49,7 @@ public class MapsFragment extends Fragment {
     private MapViewModel viewModel;
     private boolean showMyLocation;
     private Location userLocation;
+    private LatLng lastLocation;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -54,8 +58,14 @@ public class MapsFragment extends Fragment {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
                     if(userLocation != null){
-                        googleMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude())));
+                        MarkerOptions options = new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()));
+                        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude())).title("You are: ").snippet(viewModel.distanceToPoint(dataList.get(0))+"Miles from quake");
+                        googleMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()),zoomLevel));
+                        PolylineOptions polylineOptions = new PolylineOptions()
+                                .add(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()))
+                                .add(lastLocation);
+                        Polyline polyline = googleMap.addPolyline(polylineOptions);
                     }
                 }
             });
@@ -77,6 +87,7 @@ public class MapsFragment extends Fragment {
             });
             map.addMarker(markerOptions);
             last = currentLocation;
+            lastLocation = last;
         }
         if(zoomLevel != null){
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(last,zoomLevel));

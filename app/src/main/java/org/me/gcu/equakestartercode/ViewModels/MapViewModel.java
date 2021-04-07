@@ -26,7 +26,9 @@ public class MapViewModel extends ViewModel implements LocationListener {
         Location quakeLocation = new Location("");
         quakeLocation.setLatitude(quake.getLat());
         quakeLocation.setLongitude(quake.getLon());
-        return currentLocation.getValue().distanceTo(quakeLocation);
+        float metres = currentLocation.getValue().distanceTo(quakeLocation);
+        float miles = metres/1609;
+        return miles;
     }
 
     public MutableLiveData<Location> findLocation() {
