@@ -1,8 +1,6 @@
 package org.me.gcu.equakestartercode.ViewModels;
 
 import android.content.Context;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
