@@ -61,7 +61,7 @@ public class MapsFragment extends Fragment {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
                     if(userLocation != null){
-                        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude())).title("You are: ").snippet(viewModel.distanceToPoint(dataList.get(0))+"Miles from quake");
+                        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude())).title("You are: ").snippet(Math.round(viewModel.distanceToPoint(dataList.get(0)))+"Miles from quake");
                         googleMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()),zoomLevel));
                         PolylineOptions polylineOptions = new PolylineOptions()
