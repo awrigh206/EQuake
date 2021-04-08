@@ -43,7 +43,6 @@ public class InnerDataFragment extends Fragment {
         dateText.setText("Date: " + model.getDateString());
         locationText.setText("Location: " + model.getLocation());
         magText.setText(String.valueOf("Magnitude: " + model.getMagnitude()));
-
         doCalc();
 
         return view;
@@ -51,9 +50,9 @@ public class InnerDataFragment extends Fragment {
 
     private void doCalc(){
         Double energy = calculateEnergyOfQuake();
-        energyText.setText("That's a whole: " + energy+" Joules of energy!");
+        energyText.setText("That's a whole: " + energy+" Joules of energy released!");
         explosiveText.setText("That's the equivalent of: " + convertToTnt(energy) + "KG of TNT!");
-        Double power = convertToWatts(energy,2.0);
+        Double power = convertToWatts(energy,3600.0);
         kettleText.setText("With that kind of power you could run a kettle for approxiamately: " + kettleRunTime(power)+" Hours");
     }
 
