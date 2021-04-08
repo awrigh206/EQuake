@@ -50,10 +50,10 @@ public class InnerDataFragment extends Fragment {
 
     private void doCalc(){
         Double energy = calculateEnergyOfQuake();
-        energyText.setText("That's a whole: " + energy+" Joules of energy released!");
-        explosiveText.setText("That's the equivalent of: " + convertToTnt(energy) + "KG of TNT!");
+        energyText.setText("That's a whole: " + energy +" Joules of energy released!");
+        explosiveText.setText("That's the equivalent of: " + Math.round(convertToTnt(energy)) + "KG of TNT!");
         Double power = convertToWatts(energy,3600.0);
-        kettleText.setText("With that kind of power you could run a kettle for approxiamately: " + kettleRunTime(power)+" Hours");
+        kettleText.setText("With that kind of power you could run a kettle for approxiamately: " + Math.round(kettleRunTime(power))+" Hours");
     }
 
     private Double calculateEnergyOfQuake(){

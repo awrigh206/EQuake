@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
@@ -16,8 +17,11 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.me.gcu.equakestartercode.Models.EarthQuakeModel;
@@ -28,10 +32,9 @@ import java.util.ArrayList;
  * Name: Andrew Wright
  * Student ID: S1711082
  */
-public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
+public class EnergyFragment extends Fragment implements OnChartValueSelectedListener {
     private EarthQuakeModel model;
     private BarChart energyChart;
-    private SeekBar seekBarX, seekBarY;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,54 +49,35 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
 
 
     private void setupEnergyChart(View view){
-
-        seekBarX = view.findViewById(R.id.xMax);
-        seekBarX.setOnSeekBarChangeListener(this);
-
-        seekBarY = view.findViewById(R.id.yMax);
-        seekBarY.setOnSeekBarChangeListener(this);
-
         energyChart = view.findViewById(R.id.energyChart);
 
         energyChart.getDescription().setEnabled(false);
         energyChart.setMaxVisibleValueCount(60);
-        energyChart.setPinchZoom(false);
+        energyChart.setPinchZoom(true);
 
-        energyChart.setDrawBarShadow(false);
+        energyChart.setDrawBarShadow(true);
         energyChart.setDrawGridBackground(false);
 
-        String[] labels = new String[]{"I", "Really", "Hate", "This"};
+
         XAxis xAxis = energyChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         xAxis.setTextSize(11.0f);
 
         energyChart.getAxisLeft().setDrawGridLines(false);
-
-        seekBarX.setProgress(10);
-        seekBarY.setProgress(100);
+        addData();
         energyChart.animateY(1500);
         energyChart.getLegend().setEnabled(false);
+        energyChart.setOnChartValueSelectedListener(this);
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+    private void addData(){
+        String[] labels = new String[]{"This Quake","Haiti","Tangshan","Indian"};
         ArrayList<BarEntry> values = new ArrayList<>();
-        values.add(new BarEntry(0,(int)model.getMagnitude()));
-        values.add(new BarEntry(1, 200));
-        values.add(new BarEntry(2, 300));
-        values.add(new BarEntry(3, 400));
-        BarEntry entry = new BarEntry(4, 5000);
-
-//        for (int i = 0; i < seekBarX.getProgress(); i++) {
-////            float multi = (seekBarY.getProgress() + 1);
-////            float val = (float) (Math.random() * multi) + multi / 3;
-////            values.add(new BarEntry(i, val));
-//            values.add(new BarEntry(i, convertToTnt(calculateEnergyOfQuake()).intValue()));
-//            values.add(new BarEntry())
-//        }
-
+        values.add(new BarEntry(0,(float)model.getMagnitude()));
+        values.add(new BarEntry(1,7.0f));
+        values.add(new BarEntry(2,7.5f));
+        values.add(new BarEntry(3,9.1f));
         BarDataSet set;
 
         if (energyChart.getData() != null && energyChart.getData().getDataSetCount() > 0) {
@@ -102,7 +86,7 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
             energyChart.getData().notifyDataChanged();
             energyChart.notifyDataSetChanged();
         } else {
-            set = new BarDataSet(values, "Data Set");
+            set = new BarDataSet(values, "EarthQuakes");
             set.setColors(ColorTemplate.VORDIPLOM_COLORS);
             set.setDrawValues(false);
 
@@ -111,19 +95,38 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
 
             BarData data = new BarData(dataSets);
             energyChart.setData(data);
-            energyChart.setFitBars(true);
+            energyChart.setFitBars(false);
         }
-
+        energyChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        energyChart.getXAxis().setDrawLabels(false);
         energyChart.invalidate();
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
+    public void onValueSelected(Entry e, Highlight h) {
+        int x = (int) e.getX();
 
+        switch (x){
+            case 0:
+                Log.e("chart", "You have clicked on the quake model");
+                Toast.makeText(getActivity(),"This Earthquake",Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Toast.makeText(getActivity(),"Hatian Earthquake",Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(getActivity(),"Tangshan Earthquake",Toast.LENGTH_SHORT).show();
+                //tangshan
+                break;
+            case 3:
+                Toast.makeText(getActivity(),"Indian Ocean Earthquake",Toast.LENGTH_SHORT).show();
+                //indian ocean
+                break;
+        }
     }
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+    public void onNothingSelected() {
 
     }
 }
