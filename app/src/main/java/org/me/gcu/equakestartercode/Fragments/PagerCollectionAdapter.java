@@ -37,7 +37,7 @@ public class PagerCollectionAdapter extends FragmentStateAdapter {
         switch(position){
             case 0:
                 Fragment fragment = new InnerDataFragment();
-                args.putInt("arg", position + 1);
+                args.putParcelable("data", model);
                 fragment.setArguments(args);
                 return fragment;
             case 1:

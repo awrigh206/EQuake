@@ -40,40 +40,10 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
         model = getArguments().getParcelable("data");
         View view = inflater.inflate(R.layout.fragment_energy, container, false);
         setupEnergyChart(view);
-        doCalc();
         return view;
     }
 
-    private void doCalc(){
-        Double energy = calculateEnergyOfQuake();
-        convertToTnt(energy);
-        Double power = convertToWatts(energy,2.0);
-    }
 
-    private Double calculateEnergyOfQuake(){
-        Double result;
-        Double magnitude = model.getMagnitude();
-        result = 5.24 + 1.44 * magnitude;
-        result = Math.pow(10,result);
-        return result;
-    }
-
-    private Double convertToTnt(Double energy){
-        Double tonEnergy = 4.184 * Math.pow(10,9);
-        Double kiloEnergy = tonEnergy/1000;
-        Double kilos = energy/kiloEnergy;
-        return kilos;
-    }
-
-    private Double convertToWatts(Double energy, Double time){
-        return energy/time;
-    }
-
-    private Double kettleRunTime(double watts){
-        double powerKettle = 2000;
-        return watts/powerKettle;
-
-    }
 
     private void setupEnergyChart(View view){
 
@@ -110,8 +80,7 @@ public class EnergyFragment extends Fragment implements SeekBar.OnSeekBarChangeL
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
         ArrayList<BarEntry> values = new ArrayList<>();
-        values.add(new BarEntry(0, convertToTnt(calculateEnergyOfQuake()).intValue()));
-        Log.e("TNT", convertToTnt(calculateEnergyOfQuake()).toString());
+        values.add(new BarEntry(0,(int)model.getMagnitude()));
         values.add(new BarEntry(1, 200));
         values.add(new BarEntry(2, 300));
         values.add(new BarEntry(3, 400));
